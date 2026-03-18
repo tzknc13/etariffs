@@ -1,0 +1,283 @@
+---
+import providersData from "../data/providers.json";
+import { translations, defaultLocale } from "../i18n/translations";
+
+// prepare the tarifs raw data
+// on server, not client
+
+const t = translations[defaultLocale].home;
+const tariffs = Object.values(providersData.providers).flat();
+const maxFee = Math.max(...tariffs.map((t) => t.monthlyFee));
+
+const allTariffs = tariffs.map((t) => ({
+  label: t.name,
+  priceAC: t.priceAC,
+  priceDC: t.priceDC,
+  monthlyFee: t.monthlyFee,
+}));
+---
+
+<div
+  id="charts-section"
+  data-tariffs={JSON.stringify(allTariffs)}
+  data-max-fee={maxFee}
+  class="grid grid-cols-1 gap-6"
+>
+  <!-- Slider -->
+  <div class="rounded-xl border border-gray-200 dark:border-gray-800 p-4">
+    <div class="flex items-center justify-between mb-4">
+      <span
+        class="text-sm font-semibold text-gray-600 dark:text-gray-400"
+        data-i18n="home.monthlyFeeLabel"
+      >
+        {t.monthlyFeeLabel}
+      </span>
+      <span class="text-sm font-semibold text-gray-900 dark:text-white">
+        €<span id="slider-min-value">0.00</span>
+        &nbsp;–&nbsp; €<span id="slider-max-value">{maxFee.toFixed(2)}</span>
+        <span data-i18n="home.monthlyFeeUnit">{t.monthlyFeeUnit}</span>
+      </span>
+    </div>
+
+    <div class="relative h-5 flex items-center">
+      <!-- filled track -->
+      <div
+        id="slider-track"
+        class="absolute h-2 rounded-full bg-indigo-500 pointer-events-none"
+      >
+      </div>
+      <!-- base track -->
+      <div
+        class="absolute w-full h-2 rounded-full bg-gray-200 dark:bg-gray-700 -z-10"
+      >
+      </div>
+
+      <input
+        id="range-min"
+        type="range"
+        min="0"
+        max={maxFee}
+        step="0.01"
+        value="0"
+        class="range-thumb absolute w-full appearance-none bg-transparent pointer-events-none"
+      />
+      <input
+        id="range-max"
+        type="range"
+        min="0"
+        max={maxFee}
+        step="0.01"
+        value={maxFee}
+        class="range-thumb absolute w-full appearance-none bg-transparent pointer-events-none"
+      />
+    </div>
+
+    <div
+      class="flex justify-between mt-2 text-xs text-gray-400 dark:text-gray-500"
+    >
+      <span>€0</span>
+      <span>€{maxFee.toFixed(2)}</span>
+    </div>
+  </div>
+
+  <!-- Charts -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="rounded-xl border border-gray-200 dark:border-gray-800 p-4">
+      <h3
+        class="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-4"
+        data-i18n="home.acPrice"
+      >
+        {t.acPrice}
+      </h3>
+      <canvas id="chart-ac"></canvas>
+    </div>
+    <div class="rounded-xl border border-gray-200 dark:border-gray-800 p-4">
+      <h3
+        class="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-4"
+        data-i18n="home.dcPrice"
+      >
+        {t.dcPrice}
+      </h3>
+      <canvas id="chart-dc"></canvas>
+    </div>
+  </div>
+</div>
+
+<style>
+  .range-thumb::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #6366f1;
+    border: 2px solid white;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+    pointer-events: all;
+    cursor: pointer;
+  }
+  .range-thumb::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #6366f1;
+    border: 2px solid white;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+    pointer-events: all;
+    cursor: pointer;
+  }
+  .range-thumb:focus-visible::-webkit-slider-thumb {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
+  }
+</style>
+
+<script>
+  import {
+    Chart,
+    BarController,
+    BarElement,
+    LinearScale,
+    CategoryScale,
+    Tooltip,
+  } from "chart.js";
+
+  Chart.register(
+    BarController,
+    BarElement,
+    LinearScale,
+    CategoryScale,
+    Tooltip,
+  );
+
+  const COLORS = [
+    "#6366f1",
+    "#8b5cf6",
+    "#a78bfa",
+    "#c4b5fd",
+    "#06b6d4",
+    "#0ea5e9",
+    "#38bdf8",
+    "#7dd3fc",
+    "#10b981",
+  ];
+
+  const section = document.getElementById("charts-section")!;
+  const allTariffs: {
+    label: string;
+    priceAC: number;
+    priceDC: number;
+    monthlyFee: number;
+  }[] = JSON.parse(section.dataset.tariffs!);
+  const maxFee = parseFloat(section.dataset.maxFee!);
+
+  const rangeMin = document.getElementById("range-min") as HTMLInputElement;
+  const rangeMax = document.getElementById("range-max") as HTMLInputElement;
+  const track = document.getElementById("slider-track")!;
+  const minValueEl = document.getElementById("slider-min-value")!;
+  const maxValueEl = document.getElementById("slider-max-value")!;
+
+  function updateTrack() {
+    const lo = (parseFloat(rangeMin.value) / maxFee) * 100;
+    const hi = (parseFloat(rangeMax.value) / maxFee) * 100;
+    track.style.left = `${lo}%`;
+    track.style.width = `${hi - lo}%`;
+  }
+
+  const chartOptions = {
+    plugins: { legend: { display: false } },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { callback: (v: unknown) => `€${v}` },
+        grid: { color: "rgba(156,163,175,0.15)" },
+      },
+      x: {
+        ticks: { maxRotation: 45, font: { size: 11 } },
+        grid: { display: false },
+      },
+    },
+  };
+
+  function makeDataset(data: number[], count: number) {
+    return { data, backgroundColor: COLORS.slice(0, count), borderRadius: 6 };
+  }
+
+  const chartAC = new Chart(
+    document.getElementById("chart-ac") as HTMLCanvasElement,
+    {
+      type: "bar",
+      data: {
+        labels: allTariffs.map((t) => t.label),
+        datasets: [
+          makeDataset(
+            allTariffs.map((t) => t.priceAC),
+            allTariffs.length,
+          ),
+        ],
+      },
+      options: chartOptions,
+    },
+  );
+
+  const chartDC = new Chart(
+    document.getElementById("chart-dc") as HTMLCanvasElement,
+    {
+      type: "bar",
+      data: {
+        labels: allTariffs.map((t) => t.label),
+        datasets: [
+          makeDataset(
+            allTariffs.map((t) => t.priceDC),
+            allTariffs.length,
+          ),
+        ],
+      },
+      options: chartOptions,
+    },
+  );
+
+  function updateCharts() {
+    const lo = parseFloat(rangeMin.value);
+    const hi = parseFloat(rangeMax.value);
+    const visible = allTariffs.filter(
+      (t) => t.monthlyFee >= lo && t.monthlyFee <= hi,
+    );
+    const labels = visible.map((t) => t.label);
+
+    chartAC.data.labels = labels;
+    chartAC.data.datasets[0] = makeDataset(
+      visible.map((t) => t.priceAC),
+      labels.length,
+    );
+    chartAC.update();
+
+    chartDC.data.labels = labels;
+    chartDC.data.datasets[0] = makeDataset(
+      visible.map((t) => t.priceDC),
+      labels.length,
+    );
+    chartDC.update();
+  }
+
+  rangeMin.addEventListener("input", () => {
+    if (parseFloat(rangeMin.value) > parseFloat(rangeMax.value)) {
+      rangeMin.value = rangeMax.value;
+    }
+    minValueEl.textContent = parseFloat(rangeMin.value).toFixed(2);
+    updateTrack();
+    updateCharts();
+  });
+
+  rangeMax.addEventListener("input", () => {
+    if (parseFloat(rangeMax.value) < parseFloat(rangeMin.value)) {
+      rangeMax.value = rangeMin.value;
+    }
+    maxValueEl.textContent = parseFloat(rangeMax.value).toFixed(2);
+    updateTrack();
+    updateCharts();
+  });
+
+  // initialise track position
+  updateTrack();
+</script>
