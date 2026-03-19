@@ -1,6 +1,7 @@
 ---
 import providersData from "../data/providers.json";
 import { translations, defaultLocale } from "../i18n/translations";
+import ProviderRow from "./chartItems/ProviderRow.astro";
 
 // prepare the tarifs raw data
 // on server, not client
@@ -15,6 +16,9 @@ const allTariffs = tariffs.map((t) => ({
   priceDC: t.priceDC,
   monthlyFee: t.monthlyFee,
 }));
+
+const maxPriceAC = Math.max(...allTariffs.map((t) => t.priceAC));
+const maxPriceDC = Math.max(...allTariffs.map((t) => t.priceDC));
 ---
 
 <div
@@ -89,8 +93,11 @@ const allTariffs = tariffs.map((t) => ({
       >
         {t.acPrice}
       </h3>
-      <canvas id="chart-ac"></canvas>
+      {allTariffs.map((tariff) => (
+        <ProviderRow label={tariff.label} price={tariff.priceAC} maxPrice={maxPriceAC} />
+      ))}
     </div>
+
     <div class="rounded-xl border border-gray-200 dark:border-gray-800 p-4">
       <h3
         class="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-4"
@@ -98,8 +105,11 @@ const allTariffs = tariffs.map((t) => ({
       >
         {t.dcPrice}
       </h3>
-      <canvas id="chart-dc"></canvas>
+      {allTariffs.map((tariff) => (
+        <ProviderRow label={tariff.label} price={tariff.priceDC} maxPrice={maxPriceDC} />
+      ))}
     </div>
+
   </div>
 </div>
 
@@ -133,42 +143,7 @@ const allTariffs = tariffs.map((t) => ({
 </style>
 
 <script>
-  import {
-    Chart,
-    BarController,
-    BarElement,
-    LinearScale,
-    CategoryScale,
-    Tooltip,
-  } from "chart.js";
-
-  Chart.register(
-    BarController,
-    BarElement,
-    LinearScale,
-    CategoryScale,
-    Tooltip,
-  );
-
-  const COLORS = [
-    "#6366f1",
-    "#8b5cf6",
-    "#a78bfa",
-    "#c4b5fd",
-    "#06b6d4",
-    "#0ea5e9",
-    "#38bdf8",
-    "#7dd3fc",
-    "#10b981",
-  ];
-
   const section = document.getElementById("charts-section")!;
-  const allTariffs: {
-    label: string;
-    priceAC: number;
-    priceDC: number;
-    monthlyFee: number;
-  }[] = JSON.parse(section.dataset.tariffs!);
   const maxFee = parseFloat(section.dataset.maxFee!);
 
   const rangeMin = document.getElementById("range-min") as HTMLInputElement;
@@ -184,89 +159,12 @@ const allTariffs = tariffs.map((t) => ({
     track.style.width = `${hi - lo}%`;
   }
 
-  const chartOptions = {
-    plugins: { legend: { display: false } },
-    scales: {
-      y: {
-        beginAtZero: true,
-        ticks: { callback: (v: unknown) => `€${v}` },
-        grid: { color: "rgba(156,163,175,0.15)" },
-      },
-      x: {
-        ticks: { maxRotation: 45, font: { size: 11 } },
-        grid: { display: false },
-      },
-    },
-  };
-
-  function makeDataset(data: number[], count: number) {
-    return { data, backgroundColor: COLORS.slice(0, count), borderRadius: 6 };
-  }
-
-  const chartAC = new Chart(
-    document.getElementById("chart-ac") as HTMLCanvasElement,
-    {
-      type: "bar",
-      data: {
-        labels: allTariffs.map((t) => t.label),
-        datasets: [
-          makeDataset(
-            allTariffs.map((t) => t.priceAC),
-            allTariffs.length,
-          ),
-        ],
-      },
-      options: chartOptions,
-    },
-  );
-
-  const chartDC = new Chart(
-    document.getElementById("chart-dc") as HTMLCanvasElement,
-    {
-      type: "bar",
-      data: {
-        labels: allTariffs.map((t) => t.label),
-        datasets: [
-          makeDataset(
-            allTariffs.map((t) => t.priceDC),
-            allTariffs.length,
-          ),
-        ],
-      },
-      options: chartOptions,
-    },
-  );
-
-  function updateCharts() {
-    const lo = parseFloat(rangeMin.value);
-    const hi = parseFloat(rangeMax.value);
-    const visible = allTariffs.filter(
-      (t) => t.monthlyFee >= lo && t.monthlyFee <= hi,
-    );
-    const labels = visible.map((t) => t.label);
-
-    chartAC.data.labels = labels;
-    chartAC.data.datasets[0] = makeDataset(
-      visible.map((t) => t.priceAC),
-      labels.length,
-    );
-    chartAC.update();
-
-    chartDC.data.labels = labels;
-    chartDC.data.datasets[0] = makeDataset(
-      visible.map((t) => t.priceDC),
-      labels.length,
-    );
-    chartDC.update();
-  }
-
   rangeMin.addEventListener("input", () => {
     if (parseFloat(rangeMin.value) > parseFloat(rangeMax.value)) {
       rangeMin.value = rangeMax.value;
     }
     minValueEl.textContent = parseFloat(rangeMin.value).toFixed(2);
     updateTrack();
-    updateCharts();
   });
 
   rangeMax.addEventListener("input", () => {
@@ -275,9 +173,7 @@ const allTariffs = tariffs.map((t) => ({
     }
     maxValueEl.textContent = parseFloat(rangeMax.value).toFixed(2);
     updateTrack();
-    updateCharts();
   });
 
-  // initialise track position
   updateTrack();
 </script>
