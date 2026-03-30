@@ -2,6 +2,8 @@
 import providersData from "../data/providers.json";
 import { translations, defaultLocale } from "../i18n/translations";
 import ProviderRow from "./chartItems/ProviderRow.astro";
+import Card from "./Card.astro";
+import FeeSlider from "./chartItems/FeeSlider.astro";
 
 // prepare the tarifs raw data
 // on server, not client
@@ -25,155 +27,35 @@ const maxPriceDC = Math.max(...allTariffs.map((t) => t.priceDC));
   id="charts-section"
   data-tariffs={JSON.stringify(allTariffs)}
   data-max-fee={maxFee}
-  class="grid grid-cols-1 gap-6"
+  class="grid grid-cols-5 gap-6 items-start"
 >
   <!-- Slider -->
-  <div class="rounded-xl border border-gray-200 dark:border-gray-800 p-4">
-    <div class="flex items-center justify-between mb-4">
-      <span
-        class="text-sm font-semibold text-gray-600 dark:text-gray-400"
-        data-i18n="home.monthlyFeeLabel"
-      >
-        {t.monthlyFeeLabel}
-      </span>
-      <span class="text-sm font-semibold text-gray-900 dark:text-white">
-        €<span id="slider-min-value">0.00</span>
-        &nbsp;–&nbsp; €<span id="slider-max-value">{maxFee.toFixed(2)}</span>
-        <span data-i18n="home.monthlyFeeUnit">{t.monthlyFeeUnit}</span>
-      </span>
-    </div>
-
-    <div class="relative h-5 flex items-center">
-      <!-- filled track -->
-      <div
-        id="slider-track"
-        class="absolute h-2 rounded-full bg-indigo-500 pointer-events-none"
-      >
-      </div>
-      <!-- base track -->
-      <div
-        class="absolute w-full h-2 rounded-full bg-gray-200 dark:bg-gray-700 -z-10"
-      >
-      </div>
-
-      <input
-        id="range-min"
-        type="range"
-        min="0"
-        max={maxFee}
-        step="0.01"
-        value="0"
-        class="range-thumb absolute w-full appearance-none bg-transparent pointer-events-none"
-      />
-      <input
-        id="range-max"
-        type="range"
-        min="0"
-        max={maxFee}
-        step="0.01"
-        value={maxFee}
-        class="range-thumb absolute w-full appearance-none bg-transparent pointer-events-none"
-      />
-    </div>
-
-    <div
-      class="flex justify-between mt-2 text-xs text-gray-400 dark:text-gray-500"
-    >
-      <span>€0</span>
-      <span>€{maxFee.toFixed(2)}</span>
-    </div>
-  </div>
+  <FeeSlider maxFee={maxFee} colSpan="col-span-1" />
 
   <!-- Charts -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <div class="rounded-xl border border-gray-200 dark:border-gray-800 p-4">
-      <h3
-        class="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-4"
-        data-i18n="home.acPrice"
-      >
-        {t.acPrice}
-      </h3>
-      {allTariffs.map((tariff) => (
-        <ProviderRow label={tariff.label} price={tariff.priceAC} maxPrice={maxPriceAC} />
-      ))}
-    </div>
+  <Card title={t.acPrice} colSpan="col-span-2">
+    {
+      allTariffs.map((tariff) => (
+        <ProviderRow
+          label={tariff.label}
+          price={tariff.priceAC}
+          maxPrice={maxPriceAC}
+          monthlyFee={tariff.monthlyFee}
+        />
+      ))
+    }
+  </Card>
 
-    <div class="rounded-xl border border-gray-200 dark:border-gray-800 p-4">
-      <h3
-        class="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-4"
-        data-i18n="home.dcPrice"
-      >
-        {t.dcPrice}
-      </h3>
-      {allTariffs.map((tariff) => (
-        <ProviderRow label={tariff.label} price={tariff.priceDC} maxPrice={maxPriceDC} />
-      ))}
-    </div>
-
-  </div>
+  <Card title={t.dcPrice} colSpan="col-span-2">
+    {
+      allTariffs.map((tariff) => (
+        <ProviderRow
+          label={tariff.label}
+          price={tariff.priceDC}
+          maxPrice={maxPriceDC}
+          monthlyFee={tariff.monthlyFee}
+        />
+      ))
+    }
+  </Card>
 </div>
-
-<style>
-  .range-thumb::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: #6366f1;
-    border: 2px solid white;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
-    pointer-events: all;
-    cursor: pointer;
-  }
-  .range-thumb::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: #6366f1;
-    border: 2px solid white;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
-    pointer-events: all;
-    cursor: pointer;
-  }
-  .range-thumb:focus-visible::-webkit-slider-thumb {
-    outline: 2px solid #6366f1;
-    outline-offset: 2px;
-  }
-</style>
-
-<script>
-  const section = document.getElementById("charts-section")!;
-  const maxFee = parseFloat(section.dataset.maxFee!);
-
-  const rangeMin = document.getElementById("range-min") as HTMLInputElement;
-  const rangeMax = document.getElementById("range-max") as HTMLInputElement;
-  const track = document.getElementById("slider-track")!;
-  const minValueEl = document.getElementById("slider-min-value")!;
-  const maxValueEl = document.getElementById("slider-max-value")!;
-
-  function updateTrack() {
-    const lo = (parseFloat(rangeMin.value) / maxFee) * 100;
-    const hi = (parseFloat(rangeMax.value) / maxFee) * 100;
-    track.style.left = `${lo}%`;
-    track.style.width = `${hi - lo}%`;
-  }
-
-  rangeMin.addEventListener("input", () => {
-    if (parseFloat(rangeMin.value) > parseFloat(rangeMax.value)) {
-      rangeMin.value = rangeMax.value;
-    }
-    minValueEl.textContent = parseFloat(rangeMin.value).toFixed(2);
-    updateTrack();
-  });
-
-  rangeMax.addEventListener("input", () => {
-    if (parseFloat(rangeMax.value) < parseFloat(rangeMin.value)) {
-      rangeMax.value = rangeMin.value;
-    }
-    maxValueEl.textContent = parseFloat(rangeMax.value).toFixed(2);
-    updateTrack();
-  });
-
-  updateTrack();
-</script>

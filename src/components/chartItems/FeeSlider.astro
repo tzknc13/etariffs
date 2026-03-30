@@ -1,0 +1,116 @@
+---
+import { translations, defaultLocale } from '../../i18n/translations';
+import Card from '../Card.astro';
+
+interface Props {
+  maxFee: number;
+  colSpan?: string;
+}
+
+const { maxFee, colSpan } = Astro.props;
+const t = translations[defaultLocale].home;
+---
+
+<Card title={t.monthlyFeeLabel} colSpan={colSpan}>
+  <div class="flex items-center justify-between mb-4">
+    <span class="text-sm font-semibold text-site-text">
+      €<span id="slider-min-value">0.00</span>
+      &nbsp;–&nbsp; €<span id="slider-max-value">{maxFee.toFixed(2)}</span>
+      <span data-i18n="home.monthlyFeeUnit">{t.monthlyFeeUnit}</span>
+    </span>
+  </div>
+
+  <div class="relative h-5 flex items-center">
+    <div id="slider-track" class="absolute h-2 rounded-full bg-indigo-500 pointer-events-none"></div>
+    <div class="absolute w-full h-2 rounded-full bg-gray-200 -z-10"></div>
+
+    <input
+      id="range-min"
+      type="range"
+      min="0"
+      max={maxFee}
+      step="0.01"
+      value="0"
+      class="range-thumb absolute w-full appearance-none bg-transparent pointer-events-none"
+    />
+    <input
+      id="range-max"
+      type="range"
+      min="0"
+      max={maxFee}
+      step="0.01"
+      value={maxFee}
+      class="range-thumb absolute w-full appearance-none bg-transparent pointer-events-none"
+    />
+  </div>
+
+  <div class="flex justify-between mt-2 text-xs text-site-text">
+    <span>€0</span>
+    <span>€{maxFee.toFixed(2)}</span>
+  </div>
+</Card>
+
+<style>
+  .range-thumb::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #6366f1;
+    border: 2px solid white;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+    pointer-events: all;
+    cursor: pointer;
+  }
+  .range-thumb::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #6366f1;
+    border: 2px solid white;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+    pointer-events: all;
+    cursor: pointer;
+  }
+  .range-thumb:focus-visible::-webkit-slider-thumb {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
+  }
+</style>
+
+<script>
+  const section = document.getElementById("charts-section")!;
+  const maxFee = parseFloat(section.dataset.maxFee!);
+
+  const rangeMin = document.getElementById("range-min") as HTMLInputElement;
+  const rangeMax = document.getElementById("range-max") as HTMLInputElement;
+  const track = document.getElementById("slider-track")!;
+  const minValueEl = document.getElementById("slider-min-value")!;
+  const maxValueEl = document.getElementById("slider-max-value")!;
+
+  function updateTrack() {
+    const lo = (parseFloat(rangeMin.value) / maxFee) * 100;
+    const hi = (parseFloat(rangeMax.value) / maxFee) * 100;
+    track.style.left = `${lo}%`;
+    track.style.width = `${hi - lo}%`;
+  }
+
+  rangeMin.addEventListener("input", () => {
+    if (parseFloat(rangeMin.value) > parseFloat(rangeMax.value)) {
+      rangeMin.value = rangeMax.value;
+    }
+    minValueEl.textContent = parseFloat(rangeMin.value).toFixed(2);
+    updateTrack();
+  });
+
+  rangeMax.addEventListener("input", () => {
+    if (parseFloat(rangeMax.value) < parseFloat(rangeMin.value)) {
+      rangeMax.value = rangeMin.value;
+    }
+    maxValueEl.textContent = parseFloat(rangeMax.value).toFixed(2);
+    updateTrack();
+  });
+
+  updateTrack();
+</script>

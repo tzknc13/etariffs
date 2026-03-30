@@ -1,0 +1,25 @@
+---
+interface Props {
+  size?: number;
+}
+const { size = 56 } = Astro.props;
+---
+
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 48 48"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-label="eTariffs logo"
+>
+  <!-- Left pin -->
+  <rect x="15" y="6" width="4" height="13" rx="1" fill="black" />
+  <!-- Right pin -->
+  <rect x="29" y="6" width="4" height="13" rx="1" fill="black" />
+
+  <!-- Plug body -->
+  <rect x="9" y="17" width="30" height="20" rx="10" fill="white" stroke="black" stroke-width="2.5" />
+
+  <!-- Cable nub at bottom -->
+  <rect x="20" y="37" width="8" height="6" rx="2" fill="white" stroke="black" stroke-width="2.5" />
+</svg>

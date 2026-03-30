@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+@theme {
+  --color-site-bg: #f2f2f2;
+  --color-site-text: #222222;
+  --color-site-white: #fff;
+  --color-site-link: oklch(58.5% 0.233 277.117);
+}
+
+a {
+  color: var(--color-site-link);
+}
+
+.bg-gradient-site {
+  background: linear-gradient(to bottom, #ffffff, #d4f5d4);
+}

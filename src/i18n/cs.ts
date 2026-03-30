@@ -1,10 +1,16 @@
 export default {
   title: 'eTariffs',
+  titleLong: 'eTariffs',
   subtitle: 'Srovnání tarifů pro nabíjení elektromobilů',
   switchLanguage: 'EN',
   seo: {
     siteName: 'eTariffs',
     description: 'Porovnejte tarify pro nabíjení elektromobilů a najděte nejlepší sazby.',
+  },
+  menu: {
+    tariffsComaprison: 'Srovnání tarifů EV',
+    evvsgas: 'Ušetřím s elektromobilem?',
+    chargingRules: 'Pravidla nabíjení',
   },
   home: {
     whatIsTitle: 'Co je eTariffs?',

@@ -1,10 +1,16 @@
 export default {
   title: 'eTariffs',
+  titleLong: 'EV Charging tariffs comparison',
   subtitle: 'Your EV charging tariffs comparison',
   switchLanguage: 'CS',
   seo: {
     siteName: 'eTariffs',
     description: 'Compare EV charging tariffs and find the best rates for your electric vehicle.',
+  },
+  menu:{
+    tariffsComaprison: 'EV Tariffs comparison',
+    evvsgas: 'Do I save money with EV?',
+    chargingRules: 'Charging rules expplained'
   },
   home: {
     whatIsTitle: 'What is eTariffs?',
