@@ -96,12 +96,22 @@ const t = translations[defaultLocale].home;
     track.style.width = `${hi - lo}%`;
   }
 
+  function filterRows() {
+    const min = parseFloat(rangeMin.value);
+    const max = parseFloat(rangeMax.value);
+    document.querySelectorAll<HTMLElement>('.provider-row').forEach((row) => {
+      const fee = parseFloat(row.dataset.monthlyFee!);
+      row.style.display = fee >= min && fee <= max ? '' : 'none';
+    });
+  }
+
   rangeMin.addEventListener("input", () => {
     if (parseFloat(rangeMin.value) > parseFloat(rangeMax.value)) {
       rangeMin.value = rangeMax.value;
     }
     minValueEl.textContent = parseFloat(rangeMin.value).toFixed(2);
     updateTrack();
+    filterRows();
   });
 
   rangeMax.addEventListener("input", () => {
@@ -110,7 +120,9 @@ const t = translations[defaultLocale].home;
     }
     maxValueEl.textContent = parseFloat(rangeMax.value).toFixed(2);
     updateTrack();
+    filterRows();
   });
 
   updateTrack();
+  filterRows();
 </script>

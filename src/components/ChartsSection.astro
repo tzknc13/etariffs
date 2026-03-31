@@ -19,6 +19,9 @@ const allTariffs = tariffs.map((t) => ({
   monthlyFee: t.monthlyFee,
 }));
 
+const tariffsByAC = [...allTariffs].sort((a, b) => a.priceAC - b.priceAC);
+const tariffsByDC = [...allTariffs].sort((a, b) => a.priceDC - b.priceDC);
+
 const maxPriceAC = Math.max(...allTariffs.map((t) => t.priceAC));
 const maxPriceDC = Math.max(...allTariffs.map((t) => t.priceDC));
 ---
@@ -35,7 +38,7 @@ const maxPriceDC = Math.max(...allTariffs.map((t) => t.priceDC));
   <!-- Charts -->
   <Card title={t.acPrice} colSpan="col-span-2">
     {
-      allTariffs.map((tariff) => (
+      tariffsByAC.map((tariff) => (
         <ProviderRow
           label={tariff.label}
           price={tariff.priceAC}
@@ -48,7 +51,7 @@ const maxPriceDC = Math.max(...allTariffs.map((t) => t.priceDC));
 
   <Card title={t.dcPrice} colSpan="col-span-2">
     {
-      allTariffs.map((tariff) => (
+      tariffsByDC.map((tariff) => (
         <ProviderRow
           label={tariff.label}
           price={tariff.priceDC}

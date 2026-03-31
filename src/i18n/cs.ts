@@ -20,4 +20,10 @@ export default {
     monthlyFeeLabel: 'Max. měsíční poplatek',
     monthlyFeeUnit: '/měsíc',
   },
+  ev_vs_oil:{
+    title:'Electic Vehicle versus Petrol',
+    subtitle: 'Do I save money with electric car?',
+    subtitle2: 'Is electric car cheaper?',
+    description:''
+  }
 } as const;

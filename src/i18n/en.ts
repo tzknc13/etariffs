@@ -7,17 +7,23 @@ export default {
     siteName: 'eTariffs',
     description: 'Compare EV charging tariffs and find the best rates for your electric vehicle.',
   },
-  menu:{
+  menu: {
     tariffsComaprison: 'EV Tariffs comparison',
     evvsgas: 'Do I save money with EV?',
-    chargingRules: 'Charging rules expplained'
+    chargingRules: 'Charging rules explained'
   },
   home: {
     whatIsTitle: 'What is eTariffs?',
     whatIsBody: 'eTariffs is a simple tool to compare electric vehicle charging tariffs across different providers. It provides an easy-to-understand overview of AC and DC charging prices, helping you make informed decisions about where to charge your EV.',
     acPrice: 'AC Price (€/kWh)',
     dcPrice: 'DC Price (€/kWh)',
-    monthlyFeeLabel: 'Max monthly fee',
+    monthlyFeeLabel: 'Monthly fee',
     monthlyFeeUnit: '/month',
-  },
+  }, 
+  ev_vs_oil: {
+    title: 'Electic Vehicle versus Petrol',
+    subtitle: 'Do I save money with electric car?',
+    subtitle2: 'Is electric car cheaper?',
+    description:''
+  }
 } as const;

@@ -1,0 +1,24 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ChartsSection from "../components/ChartsSection.astro";
+import Card from "../components/Card.astro";
+import { translations, defaultLocale } from "../i18n/translations";
+
+const t = translations[defaultLocale];
+---
+
+<Layout title="eTariffs">
+  <div class="grid grid-cols-1 gap-4">
+    <div class="flex flex-col gap-6">
+      <h1 class="text-3xl col-span-4 ">
+        {t.titleLong}
+      </h1>
+      <Card title={t.home.whatIsTitle} colSpan="col-span-2">
+        <p class="text-sm text-site-text" data-i18n="home.whatIsBody">
+          {t.seo.description}
+        </p>
+      </Card>
+    </div>
+    <ChartsSection />
+  </div>
+</Layout>
