@@ -1,4 +1,4 @@
-name: Deploy to Beta Server
+name: Deploy to Server
 
 on:
   push:
