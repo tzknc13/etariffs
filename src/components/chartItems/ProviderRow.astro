@@ -1,4 +1,6 @@
 ---
+import PercentageBar from './PercentageBar.astro';
+
 interface Props {
   label: string;
   price: number;
@@ -8,7 +10,6 @@ interface Props {
 }
 
 const { label, price, maxPrice, monthlyFee, logo_url } = Astro.props;
-const barWidth = Math.round((price / maxPrice) * 100);
 ---
 
 <div class="provider-row" data-monthly-fee={monthlyFee}>
@@ -20,9 +21,7 @@ const barWidth = Math.round((price / maxPrice) * 100);
       <img src={logo_url} alt={label} class="w-full h-full object-contain" />
     </div>
     <div class="flex-1">
-      <div class="flex-1 h-2 rounded overflow-hidden" style="background: #1c2830;">
-        <div class="h-full rounded" style={`width: ${barWidth}%; background: linear-gradient(to right, #00e5a0, #00b8ff);`} />
-      </div>
+      <PercentageBar value={price} max={maxPrice} />
     </div>
     <span class="w-12 shrink-0 text-right text-xs font-medium" style="color: #e8f0ec;">
       czk {price.toFixed(2)}

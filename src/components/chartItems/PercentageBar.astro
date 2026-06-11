@@ -1,0 +1,13 @@
+---
+interface Props {
+  value: number;
+  max: number;
+}
+
+const { value, max } = Astro.props;
+const barWidth = Math.round((value / max) * 100);
+---
+
+<div class="flex-1 h-2 rounded overflow-hidden" style="background: #1c2830;">
+  <div class="h-full rounded" style={`width: ${barWidth}%; background: linear-gradient(to right, #00e5a0, #00b8ff);`} />
+</div>

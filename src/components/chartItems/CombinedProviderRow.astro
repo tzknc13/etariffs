@@ -1,0 +1,73 @@
+---
+import PercentageBar from './PercentageBar.astro';
+
+interface Props {
+  label: string;
+  prices: {
+    AC: { price: number };
+    DC: { price: number };
+    UFC: { price: number };
+  };
+  maxPrice: {
+    AC: number;
+    DC: number;
+    UFC: number;
+  };
+  monthlyFee: number;
+  logo_url: string;
+}
+
+const { label, prices, maxPrice, monthlyFee, logo_url } = Astro.props;
+---
+
+<div data-monthly-fee={monthlyFee}>
+  <div class="grid grid-cols-4">
+    <div class="col-span-1 borderline rowcell">
+      <span class="monetary-value">
+        {monthlyFee}
+      </span>
+      <span class="czk-currency"> czk </span>
+    </div>
+    <div class="col-span-1 borderline rowcell">
+      <span class="monetary-value">
+        {prices.AC.price}
+      </span>
+      <span class="czk-currency"> czk/kWh </span>
+      <PercentageBar value={prices.AC.price} max={maxPrice.AC} />
+    </div>
+    <div class="col-span-1 borderline rowcell">
+      <span class="monetary-value">
+        {prices.DC.price}
+      </span>
+      <span class="czk-currency"> czk/kWh </span>
+      <PercentageBar value={prices.DC.price} max={maxPrice.DC} />
+    </div>
+    <div class="col-span-1 rowcell">
+      <span class="monetary-value">
+        {prices.UFC.price}
+      </span>
+      <span class="czk-currency"> czk/kWh </span>
+      <PercentageBar value={prices.UFC.price} max={maxPrice.UFC} />
+    </div>
+  </div>
+</div>
+
+<style>
+  .borderline {
+    border-right: 1px solid rgba(0, 229, 160, 0.12);
+  }
+  .rowcell {
+    align-items: center;
+    padding: 0.3rem;
+    /* text-align: center; */
+  }
+  .czk-currency {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-left: 2px;
+  }
+  .monetary-value {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+</style>

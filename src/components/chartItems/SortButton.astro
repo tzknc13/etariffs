@@ -1,0 +1,67 @@
+---
+interface Props {
+  label: string;
+  sortKey: string;
+}
+
+const { label, sortKey } = Astro.props;
+---
+
+<button
+  class="sort-btn flex items-center justify-center gap-1 w-full cursor-pointer select-none"
+  data-sort-key={sortKey}
+  data-sort-dir="none"
+  aria-label={`Sort by ${label}`}
+>
+  <span>{label}</span>
+  <svg
+    class="sort-arrow w-3 h-3 shrink-0 transition-transform duration-200"
+    viewBox="0 0 10 10"
+    fill="currentColor"
+    aria-hidden="true"
+  >
+    <!-- neutral: two small chevrons stacked -->
+    <path class="arrow-up" d="M5 3 L2 6.5 L8 6.5 Z" opacity="0.3" />
+    <path class="arrow-down" d="M5 7 L2 3.5 L8 3.5 Z" opacity="0.3" />
+  </svg>
+</button>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>(".sort-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const current = btn.dataset.sortDir ?? "none";
+      const next =
+        current === "none" || current === "desc" ? "asc" : "desc";
+
+      // reset all other buttons
+      document
+        .querySelectorAll<HTMLButtonElement>(".sort-btn")
+        .forEach((b) => {
+          b.dataset.sortDir = "none";
+          const up = b.querySelector<SVGPathElement>(".arrow-up");
+          const down = b.querySelector<SVGPathElement>(".arrow-down");
+          if (up) up.style.opacity = "0.3";
+          if (down) down.style.opacity = "0.3";
+        });
+
+      btn.dataset.sortDir = next;
+      const up = btn.querySelector<SVGPathElement>(".arrow-up");
+      const down = btn.querySelector<SVGPathElement>(".arrow-down");
+
+      if (next === "asc") {
+        if (up) up.style.opacity = "1";
+        if (down) down.style.opacity = "0.3";
+      } else {
+        if (up) up.style.opacity = "0.3";
+        if (down) down.style.opacity = "1";
+      }
+
+      btn.dispatchEvent(
+        new CustomEvent("sort", {
+          detail: { key: btn.dataset.sortKey, dir: next },
+          bubbles: true,
+        })
+      );
+    });
+  });
+</script>

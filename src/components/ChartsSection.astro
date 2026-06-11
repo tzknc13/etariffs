@@ -2,8 +2,10 @@
 import providersData from "../data/providers.json";
 import { translations, defaultLocale } from "../i18n/translations";
 import ProviderRow from "./chartItems/ProviderRow.astro";
+import CombinedProviderRow from "./chartItems/CombinedProviderRow.astro";
 import Card from "./Card.astro";
 import FeeSlider from "./chartItems/FeeSlider.astro";
+import SortButton from "./chartItems/SortButton.astro";
 
 // prepare the tarifs raw data
 // on server, not client
@@ -14,20 +16,23 @@ const maxFee = Math.max(...tariffs.map((t) => t.monthlyFee));
 
 const allTariffs = tariffs.map((t) => ({
   label: t.name,
-  priceAC: t.priceAC,
-  priceDC: t.priceDC,
-  priceUFC: t.priceUFC,
+  priceAC: t.prices.AC.price,
+  priceDC: t.prices.DC.price,
+  priceUFC: t.prices.UFC.price,
+  prices: {
+    AC: { price: t.prices.AC.price },
+    DC: { price: t.prices.DC.price },
+    UFC: { price: t.prices.UFC.price },
+  },
   monthlyFee: t.monthlyFee,
-  logo_url: t.logo_url
+  logo_url: t.logo_url,
 }));
 
-const tariffsByAC = [...allTariffs].sort((a, b) => a.priceAC - b.priceAC);
-const tariffsByDC = [...allTariffs].sort((a, b) => a.priceDC - b.priceDC);
-const tariffsByUFC = [...allTariffs].sort((a, b) => a.priceUFC - b.priceUFC);
-
-const maxPriceAC = Math.max(...allTariffs.map((t) => t.priceAC));
-const maxPriceDC = Math.max(...allTariffs.map((t) => t.priceDC));
-const maxPriceUFC = Math.max(...allTariffs.map((t) => t.priceUFC));
+const maxPrices = {
+  AC: Math.max(...tariffs.map((t) => t.prices.AC.price)),
+  DC: Math.max(...tariffs.map((t) => t.prices.DC.price)),
+  UFC: Math.max(...tariffs.map((t) => t.prices.UFC.price)),
+};
 ---
 
 <div
@@ -40,7 +45,29 @@ const maxPriceUFC = Math.max(...allTariffs.map((t) => t.priceUFC));
   <FeeSlider maxFee={maxFee} colSpan="col-span-1" />
 
   <!-- Charts -->
-  <Card title={t.acPrice} colSpan="col-span-2">
+
+  <div class="col-span-4 grid grid-cols-4 gap-6 text-center">
+    <SortButton label="Fee/mth." sortKey="monthlyFee" />
+    <SortButton label="AC" sortKey="AC" />
+    <SortButton label="DC" sortKey="DC" />
+    <SortButton label="UFC" sortKey="UFC" />
+    
+    {
+      allTariffs.map((t) => (
+        <Card title={t.label} logo_url={t.logo_url} colSpan="col-span-4">
+        <CombinedProviderRow
+          label={t.label}
+          prices={t.prices}
+          maxPrice={maxPrices}
+          monthlyFee={t.monthlyFee}
+          logo_url={t.logo_url}
+          />
+      </Card>
+    ))
+  }
+  </div>
+
+  <!-- <Card title={t.acPrice} colSpan="col-span-2">
     {
       tariffsByAC.map((tariff) => (
         <ProviderRow
@@ -66,5 +93,5 @@ const maxPriceUFC = Math.max(...allTariffs.map((t) => t.priceUFC));
         />
       ))
     }
-  </Card>
+  </Card> -->
 </div>

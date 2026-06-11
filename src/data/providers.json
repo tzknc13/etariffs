@@ -5,9 +5,26 @@
         "id": "pre-start",
         "name": "PRE start",
         "monthlyFee": 0,
-        "priceAC": 9.00,
-        "priceDC": 12.00,
-        "priceUFC": 14.00,
+        "prices": {
+          "AC": {
+            "price": 10.00,
+            "minutes": 60,
+            "kw_from": 0,
+            "kw_to": 49
+          },
+          "DC": {
+            "price": 13.00,
+            "minutes": 30,
+            "kw_from": 50,
+            "kw_to": 200
+          },
+          "UFC":{
+            "price": 15.00,
+            "minutes": 15,
+            "kw_from": 200,
+            "kw_to": 999
+          }
+        },
         "connectionFee": 0,
         "currency": "CZK",
         "source_url": "https://www.pre.cz/cs/domacnosti/emobilita/verejne-dobijeni/pre-charge-gold/",
@@ -17,9 +34,26 @@
         "id": "pre-silver",
         "name": "PRE silver",
         "monthlyFee": 150,
-        "priceAC": 8.00,
-        "priceDC": 11.00,
-        "priceUFC": 13.00,
+        "prices": {
+          "AC": {
+            "price": 8.00,
+            "minutes": 60,
+            "kw_from": 0,
+            "kw_to": 49
+          },
+          "DC": {
+            "price": 11.00,
+            "minutes": 30,
+            "kw_from": 50,
+            "kw_to": 200
+          },
+          "UFC":{
+            "price": 13.00,
+            "minutes": 15,
+            "kw_from": 200,
+            "kw_to": 999
+          }
+        },
         "connectionFee": 0,
         "currency": "CZK",
         "source_url": "https://www.pre.cz/cs/domacnosti/emobilita/verejne-dobijeni/pre-charge-gold/",
@@ -29,9 +63,26 @@
         "id": "pre-gold",
         "name": "PRE Gold (!)",
         "monthlyFee": 150,
-        "priceAC": 7.00,
-        "priceDC": 10.00,
-        "priceUFC": 12.00,
+        "prices": {
+          "AC": {
+            "price": 7.00,
+            "minutes": 60,
+            "kw_from": 0,
+            "kw_to": 49
+          },
+          "DC": {
+            "price": 10.00,
+            "minutes": 30,
+            "kw_from": 50,
+            "kw_to": 200
+          },
+          "UFC":{
+            "price": 12.00,
+            "minutes": 15,
+            "kw_from": 200,
+            "kw_to": 999
+          }
+        },
         "connectionFee": 0,
         "currency": "CZK",
         "source_url": "https://www.pre.cz/cs/domacnosti/emobilita/verejne-dobijeni/pre-charge-gold/",
