@@ -2,12 +2,40 @@
 interface Props {
   value: number;
   max: number;
+  bars?: number;
 }
 
-const { value, max } = Astro.props;
-const barWidth = Math.round((value / max) * 100);
+const { value, max, bars = 6 } = Astro.props;
+const filled = Math.round((value / max) * bars);
 ---
 
-<div class="flex-1 h-2 rounded overflow-hidden" style="background: #1c2830;">
-  <div class="h-full rounded" style={`width: ${barWidth}%; background: linear-gradient(to right, #00e5a0, #00b8ff);`} />
+<div class="bar-indicator" aria-label={`${Math.round((value / max) * 100)}%`}>
+  {Array.from({ length: bars }, (_, i) => (
+    <div class={`bar-cell ${i < filled ? "bar-filled" : "bar-empty"}`} />
+  ))}
 </div>
+
+<style>
+  .bar-indicator {
+    display: flex;
+    gap: 2px;
+    align-items: flex-end;
+    height: 8px;
+    margin-top: 4px;
+  }
+
+  .bar-cell {
+    flex: 1;
+    border-radius: 2px;
+  }
+
+  .bar-empty {
+    height: 100%;
+    background: #1c2830;
+  }
+
+  .bar-filled {
+    height: 100%;
+    background: linear-gradient(to top, #00e5a0, #00b8ff);
+  }
+</style>

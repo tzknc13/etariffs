@@ -88,6 +88,37 @@
         "source_url": "https://www.pre.cz/cs/domacnosti/emobilita/verejne-dobijeni/pre-charge-gold/",
         "logo_url": "./pre.svg"
       }
+    ],
+    "cez":[
+      {
+        "id": "cez-basic",
+        "name": "CEZ basic",
+        "monthlyFee": 0,
+        "prices": {
+          "AC": {
+            "price": 9.90,
+            "minutes": 60,
+            "kw_from": 0,
+            "kw_to": 49
+          },
+          "DC": {
+            "price": 12.90,
+            "minutes": 30,
+            "kw_from": 50,
+            "kw_to": 149
+          },
+          "UFC":{
+            "price": 15.90,
+            "minutes": 15,
+            "kw_from": 150,
+            "kw_to": 999
+          }
+        },
+        "connectionFee": 0,
+        "currency": "CZK",
+        "source_url": "",
+        "logo_url": "./cez.svg"
+      }
     ]
   }
 }

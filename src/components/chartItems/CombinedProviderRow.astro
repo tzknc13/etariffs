@@ -23,7 +23,7 @@ const { label, prices, maxPrice, monthlyFee, logo_url } = Astro.props;
 <div data-monthly-fee={monthlyFee}>
   <div class="grid grid-cols-4">
     <div class="col-span-1 borderline rowcell">
-      <span class="monetary-value">
+      <span class="monetary-value monthly-fee-value">
         {monthlyFee}
       </span>
       <span class="czk-currency"> czk </span>
@@ -69,5 +69,11 @@ const { label, prices, maxPrice, monthlyFee, logo_url } = Astro.props;
   .monetary-value {
     font-size: 0.875rem;
     font-weight: 600;
+  }
+
+  .monthly-fee-value {
+    /* color: rgba(255, 255, 255, 0.8); */
+        font-size: 1.1rem;
+
   }
 </style>
