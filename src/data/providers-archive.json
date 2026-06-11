@@ -1,0 +1,95 @@
+{
+  "providers": {
+    "elli": [
+      {
+        "id": "elli-basic",
+        "name": "elli Basic",
+        "monthlyFee": 0,
+        "priceAC": 0.49,
+        "priceDC": 0.59,
+        "connectionFee": 0,
+        "currency": "EUR"
+      },
+      {
+        "id": "elli-plus",
+        "name": "elli Plus",
+        "monthlyFee": 4.99,
+        "priceAC": 0.39,
+        "priceDC": 0.49,
+        "connectionFee": 0,
+        "currency": "EUR"
+      }
+    ],
+    "enbw": [
+      {
+        "id": "enbw-free",
+        "name": "mobility+ Free",
+        "monthlyFee": 0,
+        "priceAC": 0.52,
+        "priceDC": 0.62,
+        "connectionFee": 0,
+        "currency": "EUR"
+      },
+      {
+        "id": "enbw-premium",
+        "name": "mobility+ Premium",
+        "monthlyFee": 17.99,
+        "priceAC": 0.39,
+        "priceDC": 0.44,
+        "connectionFee": 0,
+        "currency": "EUR"
+      }
+    ],
+    "aral": [
+      {
+        "id": "aral-basic",
+        "name": "Aral pulse Basic",
+        "monthlyFee": 0,
+        "priceAC": 0.49,
+        "priceDC": 0.59,
+        "connectionFee": 0,
+        "currency": "EUR"
+      },
+      {
+        "id": "aral-plus",
+        "name": "Aral pulse Plus",
+        "monthlyFee": 9.99,
+        "priceAC": 0.38,
+        "priceDC": 0.46,
+        "connectionFee": 0,
+        "currency": "EUR"
+      }
+    ],
+    "adac": [
+      {
+        "id": "adac-echarge",
+        "name": "ADAC e-charge",
+        "monthlyFee": 0,
+        "priceAC": 0.49,
+        "priceDC": 0.59,
+        "connectionFee": 0,
+        "currency": "EUR"
+      }
+    ],
+    "maingau": [
+      {
+        "id": "maingau-base",
+        "name": "EinfachStromLaden",
+        "monthlyFee": 0,
+        "priceAC": 0.49,
+        "priceDC": 0.59,
+        "connectionFee": 0.79,
+        "currency": "EUR"
+      },
+      {
+        "id": "maingau-flat",
+        "name": "EinfachStromLaden Flat",
+        "monthlyFee": 12.99,
+        "priceAC": 0.37,
+        "priceDC": 0.47,
+        "connectionFee": 0,
+        "currency": "EUR"
+      }
+    ]
+  }
+}

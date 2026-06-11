@@ -1,16 +1,70 @@
 @import "tailwindcss";
 
 @theme {
-  --color-site-bg: #f2f2f2;
-  --color-site-text: #222222;
+  --color-site-bg: #080c10;
+  --color-site-bg2: #0d1318;
+  --color-site-accent: #00e5a0;
+  --color-site-accent2: #00b8ff;
+  --color-site-dim: #1c2830;
+  --color-site-text: #e8f0ec;
+  --color-site-muted: #4a6070;
   --color-site-white: #fff;
-  --color-site-link: oklch(58.5% 0.233 277.117);
+  --color-site-link: #00e5a0;
+}
+
+html, body {
+  background: #080c10;
+  color: #e8f0ec;
+  font-family: ui-monospace, 'Courier New', monospace;
 }
 
 a {
   color: var(--color-site-link);
 }
 
-.bg-gradient-site {
-  background: linear-gradient(to bottom, #ffffff, #d4f5d4);
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,229,160,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,160,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  animation: gridMove 18s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes gridMove {
+  from { background-position: 0 0; }
+  to   { background-position: 48px 48px; }
+}
+
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.22;
+  pointer-events: none;
+  z-index: 0;
+}
+.blob-1 {
+  width: 520px;
+  height: 520px;
+  background: #00e5a0;
+  top: -160px;
+  left: -160px;
+  animation: blobPulse 7s ease-in-out infinite alternate;
+}
+.blob-2 {
+  width: 400px;
+  height: 400px;
+  background: #00b8ff;
+  bottom: -120px;
+  right: -120px;
+  animation: blobPulse 9s ease-in-out 2s infinite alternate;
+}
+
+@keyframes blobPulse {
+  from { opacity: 0.14; transform: scale(1); }
+  to   { opacity: 0.28; transform: scale(1.08); }
 }

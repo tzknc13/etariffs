@@ -15,18 +15,23 @@ const { title, description, image, canonicalUrl } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" class="bg-linear-to-r from-indigo-100 to-emerald-200">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title ?? 'eTariffs'}</title>
     <SEO title={title} description={description} image={image} canonicalUrl={canonicalUrl} />
   </head>
-  <body class="min-h-screen text-site-text antialiased">
-    <Header />
-    <main class="mx-auto w-full max-w-8xl px-4 sm:px-6 lg:px-8 pb-8">
-      <slot />
-    </main>
-    <Footer />
+  <body class="min-h-screen antialiased">
+    <div class="grid-bg"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="relative flex flex-col min-h-screen" style="z-index: 1;">
+      <Header />
+      <main class="mx-auto w-full max-w-8xl px-4 sm:px-6 lg:px-8 pb-8 flex-1">
+        <slot />
+      </main>
+      <Footer />
+    </div>
   </body>
 </html>

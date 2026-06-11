@@ -16,14 +16,18 @@ const allTariffs = tariffs.map((t) => ({
   label: t.name,
   priceAC: t.priceAC,
   priceDC: t.priceDC,
+  priceUFC: t.priceUFC,
   monthlyFee: t.monthlyFee,
+  logo_url: t.logo_url
 }));
 
 const tariffsByAC = [...allTariffs].sort((a, b) => a.priceAC - b.priceAC);
 const tariffsByDC = [...allTariffs].sort((a, b) => a.priceDC - b.priceDC);
+const tariffsByUFC = [...allTariffs].sort((a, b) => a.priceUFC - b.priceUFC);
 
 const maxPriceAC = Math.max(...allTariffs.map((t) => t.priceAC));
 const maxPriceDC = Math.max(...allTariffs.map((t) => t.priceDC));
+const maxPriceUFC = Math.max(...allTariffs.map((t) => t.priceUFC));
 ---
 
 <div
@@ -44,6 +48,7 @@ const maxPriceDC = Math.max(...allTariffs.map((t) => t.priceDC));
           price={tariff.priceAC}
           maxPrice={maxPriceAC}
           monthlyFee={tariff.monthlyFee}
+          logo_url={tariff.logo_url}
         />
       ))
     }
@@ -57,6 +62,7 @@ const maxPriceDC = Math.max(...allTariffs.map((t) => t.priceDC));
           price={tariff.priceDC}
           maxPrice={maxPriceDC}
           monthlyFee={tariff.monthlyFee}
+          logo_url={tariff.logo_url}
         />
       ))
     }

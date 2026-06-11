@@ -14,7 +14,8 @@ const navItems = [
 <nav class="flex items-center gap-6">
   {navItems.map(({ label, i18nKey, href }) => (
     <a
-      class={`text-md px-3 py-1.5 rounded-md transition-colors hover:bg-white/30 active:bg-white/50 ${currentPath === href ? 'bg-white/50 text-site-link' : 'text-site-text'}`}
+      class={`text-md px-3 py-1.5 rounded-md transition-colors ${currentPath === href ? 'text-site-link' : 'text-site-muted hover:text-site-text'}`}
+      style={currentPath === href ? 'background: rgba(0,229,160,0.1); border: 1px solid rgba(0,229,160,0.2);' : 'border: 1px solid transparent;'}
       data-i18n={i18nKey}
       href={href}
     >{label}</a>
