@@ -51,23 +51,33 @@ const maxPrices = {
     <SortButton label="AC" sortKey="AC" />
     <SortButton label="DC" sortKey="DC" />
     <SortButton label="UFC" sortKey="UFC" />
-    
-    {
-      allTariffs.map((t) => (
-        <Card title={t.label} logo_url={t.logo_url} colSpan="col-span-4">
-        <CombinedProviderRow
-          label={t.label}
-          prices={t.prices}
-          maxPrice={maxPrices}
-          monthlyFee={t.monthlyFee}
-          logo_url={t.logo_url}
-          />
-      </Card>
-    ))
-  }
+
+    <div id="sort-container" class="col-span-4 flex flex-col gap-6">
+      {
+        allTariffs.map((t) => (
+          <div
+            data-sort-item
+            data-fee={t.monthlyFee}
+            data-ac={t.priceAC}
+            data-dc={t.priceDC}
+            data-ufc={t.priceUFC}
+          >
+            <Card title={t.label} logo_url={t.logo_url} colSpan="w-full">
+              <CombinedProviderRow
+                label={t.label}
+                prices={t.prices}
+                maxPrice={maxPrices}
+                monthlyFee={t.monthlyFee}
+                logo_url={t.logo_url}
+              />
+            </Card>
+          </div>
+        ))
+      }
+    </div>
   </div>
 
-  <!-- <Card title={t.acPrice} colSpan="col-span-2">
+  <!-- <Card title={t.acPrice} colSpan="col-span-2"> (unused)
     {
       tariffsByAC.map((tariff) => (
         <ProviderRow
@@ -95,3 +105,49 @@ const maxPrices = {
     }
   </Card> -->
 </div>
+
+<script>
+  const keyMap: Record<string, string> = {
+    monthlyFee: "fee",
+    AC: "ac",
+    DC: "dc",
+    UFC: "ufc",
+  };
+
+  function sortItems(dataKey: string, dir: "asc" | "desc") {
+    const container = document.getElementById("sort-container");
+    if (!container) return;
+    const items = Array.from(
+      container.querySelectorAll<HTMLElement>("[data-sort-item]")
+    );
+    items.sort((a, b) => {
+      const av = parseFloat(a.dataset[dataKey] ?? "0");
+      const bv = parseFloat(b.dataset[dataKey] ?? "0");
+      return dir === "asc" ? av - bv : bv - av;
+    });
+    items.forEach((item) => container.appendChild(item));
+  }
+
+  function setButtonState(
+    btn: HTMLElement,
+    dir: "asc" | "desc" | "none"
+  ) {
+    btn.dataset.sortDir = dir;
+    const up = btn.querySelector<SVGPathElement>(".arrow-up");
+    const down = btn.querySelector<SVGPathElement>(".arrow-down");
+    if (up) up.style.opacity = dir === "asc" ? "1" : "0.3";
+    if (down) down.style.opacity = dir === "desc" ? "1" : "0.3";
+  }
+
+  // Default: sort by DC ascending
+  const dcBtn = document.querySelector<HTMLElement>('[data-sort-key="DC"]');
+  if (dcBtn) setButtonState(dcBtn, "asc");
+  sortItems("dc", "asc");
+
+  document.addEventListener("sort", (e: Event) => {
+    const { key, dir } = (
+      e as CustomEvent<{ key: string; dir: "asc" | "desc" }>
+    ).detail;
+    sortItems(keyMap[key] ?? key.toLowerCase(), dir);
+  });
+</script>
