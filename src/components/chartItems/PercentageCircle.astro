@@ -1,0 +1,29 @@
+---
+interface Props {
+  value: number;
+  max: number;
+}
+
+const { value, max } = Astro.props;
+---
+
+<div class="circle" style={`--percent: ${Math.round((value / max) * 100)}%`}>
+</div>
+
+<style>
+  .circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 0deg,
+      gray,
+      gray 150deg,
+      green 270deg,
+      red var(--percent),
+      #1c2830 0
+    );
+    -webkit-mask: radial-gradient(farthest-side, transparent 60%, #000 61%);
+    mask: radial-gradient(farthest-side, transparent 60%, #000 61%);
+  }
+</style>

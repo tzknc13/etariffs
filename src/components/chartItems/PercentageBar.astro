@@ -3,24 +3,77 @@ interface Props {
   value: number;
   max: number;
   bars?: number;
+  type?: 'bar' | 'dc' | 'ufc';
 }
 
-const { value, max, bars = 6 } = Astro.props;
+const { value, max, bars = 70, type } = Astro.props;
 const filled = Math.round((value / max) * bars);
+
+const percentage = Math.round((value / max) * 100);
+const empty = 100 - percentage
+
 ---
 
-<div class="bar-indicator" aria-label={`${Math.round((value / max) * 100)}%`}>
-  {Array.from({ length: bars }, (_, i) => (
-    <div class={`bar-cell ${i < filled ? "bar-filled" : "bar-empty"}`} />
-  ))}
+<div class="mx-16 relative top-0 left-0 h-2 z-10" style={`--empty: ${empty}%`} aria-label={`${Math.round((value / max) * 100)}%`}>
+  <div class={`bar ${type === 'dc' ? 'bar-dc' : type === 'ufc' ? 'bar-ufc' : ''}`}></div>
+  <div class="bar-cover"></div>
 </div>
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.bar-cover').forEach(el => {
+      requestAnimationFrame(() => el.classList.add('animate'));
+    });
+  });
+</script>
+
 <style>
+  .bar {
+    position: absolute;
+    top: 0;
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(
+      to right,
+      rgb(57, 57, 57) 0%,
+      rgb(86, 45, 45) 70%,
+      rgb(255, 0, 0) 100%
+    );
+  }
+  .bar-dc {
+    background: linear-gradient(
+      to right,
+      rgb(57, 57, 57) 0%,
+      rgb(5, 178, 160) 70%,
+      rgb(32, 3, 218) 100%
+    );
+  }
+  .bar-ufc {
+    background: linear-gradient(
+      to right,
+      rgb(57, 57, 57) 0%,
+      rgb(6, 69, 194) 70%,
+      rgb(218, 3, 132) 100%
+    );
+  }
+  .bar-cover {
+    position: absolute;
+    right: 0;
+    height: 2px;
+    width: 100%;
+    background: #1c2830;
+    transition: width 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .bar-cover.animate {
+    width: var(--empty);
+  }
+
   .bar-indicator {
     display: flex;
-    gap: 2px;
+    gap: 1px;
     align-items: flex-end;
-    height: 8px;
+    height: 2px;
     margin-top: 4px;
   }
 
@@ -31,11 +84,7 @@ const filled = Math.round((value / max) * bars);
 
   .bar-empty {
     height: 100%;
-    background: #1c2830;
+    background: #2e3b44;
   }
 
-  .bar-filled {
-    height: 100%;
-    background: linear-gradient(to top, #00e5a0, #00b8ff);
-  }
 </style>

@@ -21,7 +21,7 @@ const { label, price, maxPrice, monthlyFee, logo_url } = Astro.props;
       <img src={logo_url} alt={label} class="w-full h-full object-contain" />
     </div>
     <div class="flex-1">
-      <PercentageBar value={price} max={maxPrice} />
+      <!-- <PercentageBar value={price} max={maxPrice} type='bar'/> -->
     </div>
     <span class="w-12 shrink-0 text-right text-xs font-medium" style="color: #e8f0ec;">
       czk {price.toFixed(2)}

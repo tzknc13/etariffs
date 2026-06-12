@@ -1,124 +1,216 @@
 {
   "providers": {
-    "pre": [
-      {
-        "id": "pre-start",
-        "name": "PRE start",
-        "monthlyFee": 0,
-        "prices": {
-          "AC": {
-            "price": 10.00,
-            "minutes": 60,
-            "kw_from": 0,
-            "kw_to": 49
+    "pre": {
+      "information-source-url": "https://www.pre.cz/elektromobilita/cenik-za-sluzby-nabijeni-elektromobilu",
+      "tariffs": [
+        {
+          "id": "pre-start",
+          "name": "PRE start",
+          "monthlyFee": 0,
+          "prices": {
+            "AC": {
+              "price": 10.00,
+              "minutes": 60,
+              "kw_from": 0,
+              "kw_to": 49
+            },
+            "DC": {
+              "price": 13.00,
+              "minutes": 30,
+              "kw_from": 50,
+              "kw_to": 200
+            },
+            "UFC": {
+              "price": 15.00,
+              "minutes": 15,
+              "kw_from": 200,
+              "kw_to": 999
+            }
           },
-          "DC": {
-            "price": 13.00,
-            "minutes": 30,
-            "kw_from": 50,
-            "kw_to": 200
-          },
-          "UFC":{
-            "price": 15.00,
-            "minutes": 15,
-            "kw_from": 200,
-            "kw_to": 999
-          }
+          "connectionFee": 0,
+          "currency": "CZK",
+          "logo_url": "./pre.svg"
         },
-        "connectionFee": 0,
-        "currency": "CZK",
-        "source_url": "https://www.pre.cz/cs/domacnosti/emobilita/verejne-dobijeni/pre-charge-gold/",
-        "logo_url": "./pre.svg"
-      },
-      {
-        "id": "pre-silver",
-        "name": "PRE silver",
-        "monthlyFee": 150,
-        "prices": {
-          "AC": {
-            "price": 8.00,
-            "minutes": 60,
-            "kw_from": 0,
-            "kw_to": 49
+        {
+          "id": "pre-silver",
+          "name": "PRE silver",
+          "monthlyFee": 150,
+          "prices": {
+            "AC": {
+              "price": 8.00,
+              "minutes": 60,
+              "kw_from": 0,
+              "kw_to": 49
+            },
+            "DC": {
+              "price": 11.00,
+              "minutes": 30,
+              "kw_from": 50,
+              "kw_to": 200
+            },
+            "UFC": {
+              "price": 13.00,
+              "minutes": 15,
+              "kw_from": 200,
+              "kw_to": 999
+            }
           },
-          "DC": {
-            "price": 11.00,
-            "minutes": 30,
-            "kw_from": 50,
-            "kw_to": 200
-          },
-          "UFC":{
-            "price": 13.00,
-            "minutes": 15,
-            "kw_from": 200,
-            "kw_to": 999
-          }
+          "connectionFee": 0,
+          "currency": "CZK",
+          "logo_url": "./pre.svg"
         },
-        "connectionFee": 0,
-        "currency": "CZK",
-        "source_url": "https://www.pre.cz/cs/domacnosti/emobilita/verejne-dobijeni/pre-charge-gold/",
-        "logo_url": "./pre.svg"
-      },
-      {
-        "id": "pre-gold",
-        "name": "PRE Gold (!)",
-        "monthlyFee": 150,
-        "prices": {
-          "AC": {
-            "price": 7.00,
-            "minutes": 60,
-            "kw_from": 0,
-            "kw_to": 49
+        {
+          "id": "pre-gold",
+          "name": "PRE Gold (!)",
+          "monthlyFee": 150,
+          "prices": {
+            "AC": {
+              "price": 7.00,
+              "minutes": 60,
+              "kw_from": 0,
+              "kw_to": 49
+            },
+            "DC": {
+              "price": 10.00,
+              "minutes": 30,
+              "kw_from": 50,
+              "kw_to": 200
+            },
+            "UFC": {
+              "price": 12.00,
+              "minutes": 15,
+              "kw_from": 200,
+              "kw_to": 999
+            }
           },
-          "DC": {
-            "price": 10.00,
-            "minutes": 30,
-            "kw_from": 50,
-            "kw_to": 200
+          "connectionFee": 0,
+          "currency": "CZK",
+          "logo_url": "./pre.svg"
+        }
+      ]
+    },
+    "cez": {
+      "information-source-url": "https://www.cez.cz/elektromobilita/cenik-za-sluzby-nabijeni-elektromobilu",
+      "tariffs": [
+        {
+          "id": "cez-basic",
+          "name": "CEZ basic",
+          "monthlyFee": 0,
+          "prices": {
+            "AC": {
+              "price": 9.90,
+              "minutes": 60,
+              "kw_from": 0,
+              "kw_to": 49
+            },
+            "DC": {
+              "price": 12.90,
+              "minutes": 30,
+              "kw_from": 50,
+              "kw_to": 149
+            },
+            "UFC": {
+              "price": 15.90,
+              "minutes": 15,
+              "kw_from": 150,
+              "kw_to": 999
+            }
           },
-          "UFC":{
-            "price": 12.00,
-            "minutes": 15,
-            "kw_from": 200,
-            "kw_to": 999
-          }
+          "connectionFee": 0,
+          "currency": "CZK",
+          "logo_url": "./cez.svg"
+        }
+      ]
+    },
+    "eon": {
+      "information-source-url": "https://www.eon.cz/elektromobilita/cenik-za-sluzby-nabijeni-elektromobilu",
+      "tariffs": [
+        {
+          "id": "eon-unregistered",
+          "name": "EON unregistered",
+          "monthlyFee": 0,
+          "prices": {
+            "AC": {
+              "price": 10.50,
+              "minutes": 480,
+              "kw_from": 0,
+              "kw_to": 100
+            },
+            "DC": {
+              "price": 14.50,
+              "minutes": 120,
+              "kw_from": 101,
+              "kw_to": 200
+            },
+            "UFC": {
+              "price": 20.00,
+              "minutes": 60,
+              "kw_from": 201,
+              "kw_to": 999
+            }
+          },
+          "connectionFee": 0,
+          "currency": "CZK",
+          "logo_url": "./eon.svg"
         },
-        "connectionFee": 0,
-        "currency": "CZK",
-        "source_url": "https://www.pre.cz/cs/domacnosti/emobilita/verejne-dobijeni/pre-charge-gold/",
-        "logo_url": "./pre.svg"
-      }
-    ],
-    "cez":[
-      {
-        "id": "cez-basic",
-        "name": "CEZ basic",
-        "monthlyFee": 0,
-        "prices": {
-          "AC": {
-            "price": 9.90,
-            "minutes": 60,
-            "kw_from": 0,
-            "kw_to": 49
+        {
+          "id": "eon-daytime",
+          "name": "EON daytime",
+          "monthlyFee": 0,
+          "prices": {
+            "AC": {
+              "price": 9.50,
+              "minutes": 480,
+              "kw_from": 0,
+              "kw_to": 100
+            },
+            "DC": {
+              "price": 13.00,
+              "minutes": 120,
+              "kw_from": 101,
+              "kw_to": 200
+            },
+            "UFC": {
+              "price": 16.90,
+              "minutes": 60,
+              "kw_from": 201,
+              "kw_to": 999
+            }
           },
-          "DC": {
-            "price": 12.90,
-            "minutes": 30,
-            "kw_from": 50,
-            "kw_to": 149
-          },
-          "UFC":{
-            "price": 15.90,
-            "minutes": 15,
-            "kw_from": 150,
-            "kw_to": 999
-          }
+          "connectionFee": 0,
+          "currency": "CZK",
+          "logo_url": "./eon.svg"
         },
-        "connectionFee": 0,
-        "currency": "CZK",
-        "source_url": "",
-        "logo_url": "./cez.svg"
-      }
-    ]
+        {
+          "id": "eon-nighttime",
+          "name": "EON night",
+          "monthlyFee": 0,
+          "prices": {
+            "AC": {
+              "price": 9.50,
+              "minutes": 480,
+              "kw_from": 0,
+              "kw_to": 100
+            },
+            "DC": {
+              "price": 13.00,
+              "minutes": 120,
+              "kw_from": 101,
+              "kw_to": 200
+            },
+            "UFC": {
+              "price": 16.90,
+              "minutes": 60,
+              "kw_from": 201,
+              "kw_to": 999
+            }
+          },
+          "connectionFee": 0,
+          "currency": "CZK",
+          "logo_url": "./eon.svg",
+          "isNightTarif": true
+        }
+      ]
+    }
   }
 }

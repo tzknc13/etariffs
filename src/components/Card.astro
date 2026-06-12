@@ -3,30 +3,33 @@ interface Props {
   title?: string;
   colSpan?: string;
   logo_url?: string;
+  isThin?: boolean;
+  isMoon?: boolean;
 }
-const { title, colSpan, logo_url } = Astro.props;
+const { title, colSpan, logo_url, isThin = false, isMoon = false } = Astro.props;
 ---
 
 <div class={`card-frame relative ${colSpan} rounded-xl overflow-hidden`}>
   {
     title && (
       <div
-        class="px-4 py-3 border-b flex gap-2 items-center"
+        class={`px-4 border-b flex gap-2 items-center ${isThin ? "py-1" : "py-3"} `}
         style="border-color: rgba(0,229,160,0.12);"
       >
-        {logo_url && (
+        {/* {logo_url && (
           <img
             src={logo_url}
             alt={`${title} logo`}
-            class="w-6 h-6 object-contain"
+            class="w-10 h-6 object-contain"
           />
-        )}
+        )} */}
         <h3
           class="text-xs font-semibold tracking-widest uppercase"
           style="color: #00e5a0;"
         >
           {title}
         </h3>
+        {isMoon && <div class="moon" />}
       </div>
     )
   }
@@ -65,5 +68,12 @@ const { title, colSpan, logo_url } = Astro.props;
     right: -1px;
     border-width: 0 2px 2px 0;
     border-radius: 0 0 12px 0;
+  }
+  .moon {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: 2px -1px 0 0.5px #808080 inset;
   }
 </style>

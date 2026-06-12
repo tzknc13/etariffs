@@ -1,17 +1,19 @@
 ---
 import providersData from "../data/providers.json";
 import { translations, defaultLocale } from "../i18n/translations";
-import ProviderRow from "./chartItems/ProviderRow.astro";
 import CombinedProviderRow from "./chartItems/CombinedProviderRow.astro";
 import Card from "./Card.astro";
 import FeeSlider from "./chartItems/FeeSlider.astro";
 import SortButton from "./chartItems/SortButton.astro";
+// import type { any } from "astro:schema";
 
 // prepare the tarifs raw data
 // on server, not client
 
 const t = translations[defaultLocale].home;
-const tariffs = Object.values(providersData.providers).flat();
+const providers = Object.values(providersData.providers).flat()
+const tariffs = providers.flatMap((p) => p.tariffs);
+
 const maxFee = Math.max(...tariffs.map((t) => t.monthlyFee));
 
 const allTariffs = tariffs.map((t) => ({
@@ -20,12 +22,13 @@ const allTariffs = tariffs.map((t) => ({
   priceDC: t.prices.DC.price,
   priceUFC: t.prices.UFC.price,
   prices: {
-    AC: { price: t.prices.AC.price },
-    DC: { price: t.prices.DC.price },
-    UFC: { price: t.prices.UFC.price },
+    AC: { price: t.prices.AC.price, kwFrom: t.prices.AC.kw_from, kwTo: t.prices.AC.kw_to },
+    DC: { price: t.prices.DC.price, kwFrom: t.prices.DC.kw_from, kwTo: t.prices.DC.kw_to },
+    UFC: { price: t.prices.UFC.price, kwFrom: t.prices.UFC.kw_from, kwTo: t.prices.UFC.kw_to },
   },
   monthlyFee: t.monthlyFee,
   logo_url: t.logo_url,
+  isNightTarif: (t as any).isNightTarif ?? false, // some providers have night tarif, some not, so we need to check for it
 }));
 
 const maxPrices = {
@@ -62,7 +65,7 @@ const maxPrices = {
             data-dc={t.priceDC}
             data-ufc={t.priceUFC}
           >
-            <Card title={t.label} logo_url={t.logo_url} colSpan="w-full">
+            <Card title={t.label} logo_url={t.logo_url} isThin={true} isMoon={t.isNightTarif ? true : false} colSpan="w-full">
               <CombinedProviderRow
                 label={t.label}
                 prices={t.prices}
@@ -76,34 +79,6 @@ const maxPrices = {
       }
     </div>
   </div>
-
-  <!-- <Card title={t.acPrice} colSpan="col-span-2"> (unused)
-    {
-      tariffsByAC.map((tariff) => (
-        <ProviderRow
-          label={tariff.label}
-          price={tariff.priceAC}
-          maxPrice={maxPriceAC}
-          monthlyFee={tariff.monthlyFee}
-          logo_url={tariff.logo_url}
-        />
-      ))
-    }
-  </Card>
-
-  <Card title={t.dcPrice} colSpan="col-span-2">
-    {
-      tariffsByDC.map((tariff) => (
-        <ProviderRow
-          label={tariff.label}
-          price={tariff.priceDC}
-          maxPrice={maxPriceDC}
-          monthlyFee={tariff.monthlyFee}
-          logo_url={tariff.logo_url}
-        />
-      ))
-    }
-  </Card> -->
 </div>
 
 <script>

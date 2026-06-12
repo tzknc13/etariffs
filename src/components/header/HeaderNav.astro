@@ -4,20 +4,36 @@ import { translations, defaultLocale } from '../../i18n/translations';
 const t = translations[defaultLocale];
 const currentPath = Astro.url.pathname;
 
-const navItems = [
+interface NavItem {
+  label: string;
+  i18nKey: string;
+  href: string;
+  disabled?: boolean;
+}
+
+interface Props {
+  navItems?: NavItem[];
+}
+
+const { navItems = [
   { label: t.menu.tariffsComaprison, i18nKey: 'menu.tariffsComaprison', href: '/' },
-  { label: t.menu.evvsgas,           i18nKey: 'menu.evvsgas',           href: '/ev-versus-petrol' },
-  { label: t.menu.chargingRules,     i18nKey: 'menu.chargingRules',     href: '/charging-rules' },
-];
+  { label: t.menu.evvsgas,           i18nKey: 'menu.evvsgas',           href: '/ev-versus-petrol', disabled: true },
+  { label: t.menu.chargingRules,     i18nKey: 'menu.chargingRules',     href: '/charging-rules',   disabled: true },
+] } = Astro.props;
 ---
 
 <nav class="flex items-center gap-6">
-  {navItems.map(({ label, i18nKey, href }) => (
-    <a
-      class={`text-md px-3 py-1.5 rounded-md transition-colors ${currentPath === href ? 'text-site-link' : 'text-site-muted hover:text-site-text'}`}
-      style={currentPath === href ? 'background: rgba(0,229,160,0.1); border: 1px solid rgba(0,229,160,0.2);' : 'border: 1px solid transparent;'}
-      data-i18n={i18nKey}
-      href={href}
-    >{label}</a>
+  {navItems.map(({ label, i18nKey, href, disabled }) => (
+    disabled
+      ? <span
+          class="text-md px-3 py-1.5 rounded-md border border-transparent text-site-muted opacity-40 cursor-not-allowed"
+          data-i18n={i18nKey}
+        >{label}</span>
+      : <a
+          class={`text-md px-3 py-1.5 rounded-md transition-colors ${currentPath === href ? 'text-site-link' : 'text-site-muted hover:text-site-text'}`}
+          style={currentPath === href ? 'background: rgba(0,229,160,0.1); border: 1px solid rgba(0,229,160,0.2);' : 'border: 1px solid transparent;'}
+          data-i18n={i18nKey}
+          href={href}
+        >{label}</a>
   ))}
 </nav>

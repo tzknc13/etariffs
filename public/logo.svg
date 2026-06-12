@@ -1,0 +1,25 @@
+<svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-label="EVT logo">
+  <!-- Background -->
+  <rect x="0.75" y="0.75" width="46.5" height="46.5" rx="8"
+        fill="#0d1318" stroke="#00e5a0" stroke-width="1.5" stroke-opacity="0.18"/>
+
+  <!-- Top-left corner accent -->
+  <path d="M 1 10 L 1 1 L 10 1" stroke="#00e5a0" stroke-width="1.5" fill="none" stroke-linecap="square" opacity="0.7"/>
+  <!-- Bottom-right corner accent -->
+  <path d="M 38 47 L 47 47 L 47 38" stroke="#00e5a0" stroke-width="1.5" fill="none" stroke-linecap="square" opacity="0.7"/>
+
+  <!-- E (x: 5–14, y: 12–36) -->
+  <line x1="5"  y1="12" x2="5"  y2="36" stroke="#00e5a0" stroke-width="2" stroke-linecap="square"/>
+  <line x1="5"  y1="12" x2="14" y2="12" stroke="#00e5a0" stroke-width="2" stroke-linecap="square"/>
+  <line x1="5"  y1="24" x2="12" y2="24" stroke="#00e5a0" stroke-width="2" stroke-linecap="square"/>
+  <line x1="5"  y1="36" x2="14" y2="36" stroke="#00e5a0" stroke-width="2" stroke-linecap="square"/>
+
+  <!-- V (x: 17–31, y: 12–36) -->
+  <polyline points="17,12 24,36 31,12"
+            stroke="#00e5a0" stroke-width="2" fill="none"
+            stroke-linecap="square" stroke-linejoin="miter"/>
+
+  <!-- T (x: 34–43, y: 12–36) -->
+  <line x1="34"   y1="12" x2="43"   y2="12" stroke="#00e5a0" stroke-width="2" stroke-linecap="square"/>
+  <line x1="38.5" y1="12" x2="38.5" y2="36" stroke="#00e5a0" stroke-width="2" stroke-linecap="square"/>
+</svg>

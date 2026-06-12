@@ -1,0 +1,20 @@
+---
+interface Props {
+  from?: number;
+  to?: number;
+  label?: string;
+}
+
+const {
+  from = 0,
+  to = 10,
+  label = "kW",
+}: Props = Astro.props;
+---
+
+<div>
+  <span class="text-xs text-gray-600">
+    {from} - {to}
+  </span>
+  <span class="text-xs text-gray-600">{label}</span>
+</div>
