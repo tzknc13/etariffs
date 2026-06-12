@@ -1,0 +1,38 @@
+---
+interface Props {
+  price?: number;
+  label?: string;
+}
+
+const { price, label = "czk/kWh" }: Props = Astro.props;
+const decimal = price ? price.toFixed(2) : "0.00";
+// split the before and after decimal parts to style them differently if needed
+const [beforeDecimal, afterDecimal] = decimal.split(".");
+---
+
+<div class="price">
+  <span class="monetary-value">
+    {beforeDecimal}<span class="decimal-part text-sm">.{afterDecimal}</span>
+  </span>
+  <span class="czk-currency"> {label} </span>
+</div>
+
+<style>
+  .price {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    justify-content: center;
+    align-items: center;
+  }
+  .monetary-value {
+    font-size: 1.45rem;
+    font-weight: 600;
+    color: #b7b6b6;
+  }
+  .czk-currency {
+    font-size: 0.875rem;
+    color: #4c4b4b;
+    margin-left: 0.25rem;
+  }
+</style>

@@ -17,17 +17,8 @@ const tariffs = providers.flatMap((p) => p.tariffs);
 const maxFee = Math.max(...tariffs.map((t) => t.monthlyFee));
 
 const allTariffs = tariffs.map((t) => ({
+  ...t,
   label: t.name,
-  priceAC: t.prices.AC.price,
-  priceDC: t.prices.DC.price,
-  priceUFC: t.prices.UFC.price,
-  prices: {
-    AC: { price: t.prices.AC.price, kwFrom: t.prices.AC.kw_from, kwTo: t.prices.AC.kw_to },
-    DC: { price: t.prices.DC.price, kwFrom: t.prices.DC.kw_from, kwTo: t.prices.DC.kw_to },
-    UFC: { price: t.prices.UFC.price, kwFrom: t.prices.UFC.kw_from, kwTo: t.prices.UFC.kw_to },
-  },
-  monthlyFee: t.monthlyFee,
-  logo_url: t.logo_url,
   isNightTarif: (t as any).isNightTarif ?? false, // some providers have night tarif, some not, so we need to check for it
 }));
 
@@ -61,9 +52,9 @@ const maxPrices = {
           <div
             data-sort-item
             data-fee={t.monthlyFee}
-            data-ac={t.priceAC}
-            data-dc={t.priceDC}
-            data-ufc={t.priceUFC}
+            data-ac={t.prices.AC.price}
+            data-dc={t.prices.DC.price}
+            data-ufc={t.prices.UFC.price}
           >
             <Card title={t.label} logo_url={t.logo_url} isThin={true} isMoon={t.isNightTarif ? true : false} colSpan="w-full">
               <CombinedProviderRow

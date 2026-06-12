@@ -2,13 +2,14 @@
 import PercentageBar from "./PercentageBar.astro";
 import PercentageCircle from "./PercentageCircle.astro";
 import KilowattsRange from "./KilowattsRange.astro";
+import RowPrice from "./RowPrice.astro";
 
 interface Props {
   label: string;
   prices: {
-    AC: { price: number; kwFrom: number; kwTo: number };
-    DC: { price: number; kwFrom: number; kwTo: number };
-    UFC: { price: number; kwFrom: number; kwTo: number };
+    AC: { price: number; kw_from: number; kw_to: number };
+    DC: { price: number; kw_from: number; kw_to: number };
+    UFC: { price: number; kw_from: number; kw_to: number };
   };
   maxPrice: {
     AC: number;
@@ -30,41 +31,41 @@ const { label, prices, maxPrice, monthlyFee, logo_url } = Astro.props;
           <img
             src={logo_url}
             alt={`${label} logo`}
-            class="w-10 h-6 object-contain"
+            class="w-16 h-8 object-contain"
           />
         )
       }
       <div>
-        <span class="monetary-value monthly-fee-value">
-          {monthlyFee}
-        </span>
-        <span class="czk-currency"> czk </span>
+        <RowPrice price={monthlyFee} label="czk/month" />
       </div>
     </div>
     <div class="col-span-1 borderline rowcell">
-      <KilowattsRange from={prices.AC.kwFrom} to={prices.AC.kwTo} label="kW" />
-      <span class="monetary-value">
-        {prices.AC.price}
-      </span>
-      <span class="czk-currency"> czk/kWh </span>
+      <KilowattsRange
+        from={prices.AC.kw_from}
+        to={prices.AC.kw_to}
+        label="kW"
+      />
+      <RowPrice price={prices.AC.price} />
       <PercentageBar value={prices.AC.price} max={maxPrice.AC} type="bar" />
       <!-- <PercentageCircle value={prices.AC.price} max={maxPrice.AC}/> -->
     </div>
     <div class="col-span-1 borderline rowcell">
-      <KilowattsRange from={prices.DC.kwFrom} to={prices.DC.kwTo} label="kW" />
-      <span class="monetary-value">
-        {prices.DC.price}
-      </span>
-      <span class="czk-currency"> czk/kWh </span>
+      <KilowattsRange
+        from={prices.DC.kw_from}
+        to={prices.DC.kw_to}
+        label="kW"
+      />
+      <RowPrice price={prices.DC.price} />
       <PercentageBar value={prices.DC.price} max={maxPrice.DC} type="dc" />
       <!-- <PercentageCircle value={prices.DC.price} max={maxPrice.DC}/> -->
     </div>
     <div class="col-span-1 rowcell">
-      <KilowattsRange from={prices.UFC.kwFrom} to={prices.UFC.kwTo} label="kW" />
-      <span class="monetary-value">
-        {prices.UFC.price}
-      </span>
-      <span class="czk-currency"> czk/kWh </span>
+      <KilowattsRange
+        from={prices.UFC.kw_from}
+        to={prices.UFC.kw_to}
+        label="kW"
+      />
+      <RowPrice price={prices.UFC.price} />
       <PercentageBar value={prices.UFC.price} max={maxPrice.UFC} type="ufc" />
       <!-- <PercentageCircle value={prices.UFC.price} max={maxPrice.UFC}/> -->
     </div>
@@ -92,7 +93,7 @@ const { label, prices, maxPrice, monthlyFee, logo_url } = Astro.props;
     padding: 0.3rem;
     /* text-align: center; */
   }
-  .czk-currency {
+  /* .czk-currency {
     font-size: 0.75rem;
     color: rgba(255, 255, 255, 0.6);
     margin-left: 2px;
@@ -100,7 +101,7 @@ const { label, prices, maxPrice, monthlyFee, logo_url } = Astro.props;
   .monetary-value {
     font-size: 0.875rem;
     font-weight: 600;
-  }
+  } */
 
   .monthly-fee-value {
     /* color: rgba(255, 255, 255, 0.8); */
