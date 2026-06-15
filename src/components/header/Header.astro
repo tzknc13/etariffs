@@ -4,9 +4,16 @@ import Logo from '../Logo.astro';
 import HeaderNav from './HeaderNav.astro';
 
 const t = translations[defaultLocale];
+const currentPath = Astro.url.pathname;
+
+const navItems = [
+  { label: t.menu.tariffsComaprison, i18nKey: 'menu.tariffsComaprison', href: '/' },
+  { label: t.menu.evvsgas,           i18nKey: 'menu.evvsgas',           href: '/ev-versus-petrol', disabled: true },
+  { label: t.menu.chargingRules,     i18nKey: 'menu.chargingRules',     href: '/charging-rules',   disabled: true },
+];
 ---
 
-<header class="my-12">
+<header class="mb-2 lg:my-12">
   <div class="mx-auto w-full max-w-8xl px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
     <div class="flex items-center gap-3">
       <Logo size={40} />
@@ -15,16 +22,70 @@ const t = translations[defaultLocale];
       </h2>
     </div>
 
-    <HeaderNav />
+    <!-- Desktop nav -->
+    <div class="hidden md:block">
+      <HeaderNav navItems={navItems} />
+    </div>
 
-    <button
-      id="lang-switcher"
-      class="rounded-md px-3 py-1.5 text-sm font-medium transition-colors" style="border: 1px solid rgba(0,229,160,0.3); color: #00e5a0; background: rgba(0,229,160,0.05);" onmouseover="this.style.background='rgba(0,229,160,0.12)'" onmouseout="this.style.background='rgba(0,229,160,0.05)'"
-      aria-label="Switch language"
-      data-i18n="switchLanguage"
-    >
-      {t.switchLanguage}
-    </button>
+    <div class="flex items-center gap-2">
+      <!-- Desktop lang switcher -->
+      <button
+        id="lang-switcher"
+        class="hidden md:block rounded-md px-3 py-1.5 text-sm font-medium transition-colors"
+        style="border: 1px solid rgba(0,229,160,0.3); color: #00e5a0; background: rgba(0,229,160,0.05);"
+        onmouseover="this.style.background='rgba(0,229,160,0.12)'"
+        onmouseout="this.style.background='rgba(0,229,160,0.05)'"
+        aria-label="Switch language"
+        data-i18n="switchLanguage"
+      >
+        {t.switchLanguage}
+      </button>
+
+      <!-- Hamburger (mobile only) -->
+      <button
+        id="mobile-menu-toggle"
+        class="md:hidden flex flex-col justify-center gap-1.5 p-2 rounded-md text-site-muted hover:text-site-text transition-colors"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+      >
+        <span id="ham-top"    class="block w-5 h-px bg-current transition-all duration-200 origin-center"></span>
+        <span id="ham-mid"    class="block w-5 h-px bg-current transition-all duration-200"></span>
+        <span id="ham-bot"    class="block w-5 h-px bg-current transition-all duration-200 origin-center"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div
+    id="mobile-menu"
+    class="hidden md:hidden mx-4 sm:mx-6 mt-2 mb-4 rounded-xl flex flex-col gap-1 p-3"
+    style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);"
+  >
+    {navItems.map(({ label, i18nKey, href, disabled }) => (
+      disabled
+        ? <span
+            class="text-sm px-3 py-2 rounded-lg text-site-muted opacity-40 cursor-not-allowed"
+            data-i18n={i18nKey}
+          >{label}</span>
+        : <a
+            class={`text-sm px-3 py-2 rounded-lg transition-colors ${currentPath === href ? 'text-site-link' : 'text-site-muted hover:text-site-text'}`}
+            style={currentPath === href ? 'background: rgba(0,229,160,0.1);' : ''}
+            data-i18n={i18nKey}
+            href={href}
+          >{label}</a>
+    ))}
+
+    <div class="mt-1 pt-2" style="border-top: 1px solid rgba(255,255,255,0.08);">
+      <button
+        id="lang-switcher-mobile"
+        class="w-full text-left rounded-lg px-3 py-2 text-sm font-medium transition-colors"
+        style="color: #00e5a0;"
+        aria-label="Switch language"
+        data-i18n="switchLanguage"
+      >
+        {t.switchLanguage}
+      </button>
+    </div>
   </div>
 </header>
 
@@ -68,8 +129,46 @@ const t = translations[defaultLocale];
   let currentLocale = getSavedLocale();
   applyLocale(currentLocale);
 
-  document.getElementById('lang-switcher')?.addEventListener('click', () => {
+  const switchLang = () => {
     currentLocale = toggleLocale(currentLocale);
     applyLocale(currentLocale);
+  };
+
+  document.getElementById('lang-switcher')?.addEventListener('click', switchLang);
+  document.getElementById('lang-switcher-mobile')?.addEventListener('click', switchLang);
+
+  // Mobile menu toggle
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const menu   = document.getElementById('mobile-menu');
+  const hamTop = document.getElementById('ham-top');
+  const hamMid = document.getElementById('ham-mid');
+  const hamBot = document.getElementById('ham-bot');
+
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    menu?.classList.toggle('hidden', open);
+
+    // Animate to X
+    if (!open) {
+      hamTop?.style.setProperty('transform', 'translateY(4px) rotate(45deg)');
+      hamMid?.style.setProperty('opacity', '0');
+      hamBot?.style.setProperty('transform', 'translateY(-4px) rotate(-45deg)');
+    } else {
+      hamTop?.style.removeProperty('transform');
+      hamMid?.style.removeProperty('opacity');
+      hamBot?.style.removeProperty('transform');
+    }
+  });
+
+  // Close menu when a nav link is clicked
+  menu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      menu.classList.add('hidden');
+      toggle?.setAttribute('aria-expanded', 'false');
+      hamTop?.style.removeProperty('transform');
+      hamMid?.style.removeProperty('opacity');
+      hamBot?.style.removeProperty('transform');
+    });
   });
 </script>

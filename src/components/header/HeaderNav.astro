@@ -1,7 +1,4 @@
 ---
-import { translations, defaultLocale } from '../../i18n/translations';
-
-const t = translations[defaultLocale];
 const currentPath = Astro.url.pathname;
 
 interface NavItem {
@@ -12,14 +9,10 @@ interface NavItem {
 }
 
 interface Props {
-  navItems?: NavItem[];
+  navItems: NavItem[];
 }
 
-const { navItems = [
-  { label: t.menu.tariffsComaprison, i18nKey: 'menu.tariffsComaprison', href: '/' },
-  { label: t.menu.evvsgas,           i18nKey: 'menu.evvsgas',           href: '/ev-versus-petrol', disabled: true },
-  { label: t.menu.chargingRules,     i18nKey: 'menu.chargingRules',     href: '/charging-rules',   disabled: true },
-] } = Astro.props;
+const { navItems } = Astro.props;
 ---
 
 <nav class="flex items-center gap-6">
