@@ -211,6 +211,144 @@
           "isNightTarif": true
         }
       ]
+    },
+    "mol": {
+      "information-source-url": "https://molplugee.sk/en/prices",
+      "tariffs": [
+        {
+          "id": "mol-unregistered",
+          "name": "MOL unregistered",
+          "monthlyFee": 0,
+          "prices": {
+            "AC": {
+              "price": 10.00,
+              "minutes": 30,
+              "kw_from": 0,
+              "kw_to": 25
+            },
+            "DC": {
+              "price": 14.50,
+              "minutes": 30,
+              "kw_from": 26,
+              "kw_to": 99
+            },
+            "UFC": {
+              "price": 15.50,
+              "minutes": 30,
+              "kw_from": 201,
+              "kw_to": 999
+            }
+          },
+          "connectionFee": 0,
+          "currency": "CZK",
+          "logo_url": "./mol.png"
+        },
+        {
+          "id": "mol-registered",
+          "name": "MOL registered",
+          "monthlyFee": 0,
+          "prices": {
+            "AC": {
+              "price": 8.30,
+              "minutes": 30,
+              "kw_from": 0,
+              "kw_to": 25
+            },
+            "DC": {
+              "price": 14.50,
+              "minutes": 30,
+              "kw_from": 26,
+              "kw_to": 99
+            },
+            "UFC": {
+              "price": 14.00,
+              "minutes": 30,
+              "kw_from": 100,
+              "kw_to": 999
+            }
+          },
+          "connectionFee": 0,
+          "currency": "CZK",
+          "logo_url": "./mol.png"
+        }
+      ]
+    },
+    "ionity": {
+      "information-source-url": "https://www.ionity.eu/cz/sit/pristup-a-platby",
+      "tariffs": [
+        {
+          "id": "Ionity-unregistered",
+          "name": "Ionity unregistered",
+          "monthlyFee": 0,
+          "prices": {
+            "AC": null,
+            "DC": null,
+            "UFC": {  
+              "price": 21.00,
+              "minutes": -1,
+              "kw_from": 0,
+              "kw_to": 999
+            }
+          },
+          "connectionFee": 0,
+          "currency": "CZK",
+          "logo_url": "./ionity.svg"
+        },
+        {
+          "id": "Ionity-registered",
+          "name": "Ionity registered",
+          "monthlyFee": 0,
+          "prices": {
+            "AC": null,
+            "DC": null,
+            "UFC": {  
+              "price": 19.95,
+              "minutes": -1,
+              "kw_from": 0,
+              "kw_to": 999
+            }
+          },
+          "connectionFee": 0,
+          "currency": "CZK",
+          "logo_url": "./ionity.svg"
+        },
+        {
+          "id": "Ionity-motion",
+          "name": "Ionity Motion",
+          "monthlyFee": 105.00,
+          "prices": {
+           "AC": null,
+            "DC": null,
+            "UFC": {  
+              "price": 15.00,
+              "minutes": -1,
+              "kw_from": 0,
+              "kw_to": 999
+            }
+          },
+          "connectionFee": 0,
+          "currency": "CZK",
+          "logo_url": "./ionity.svg"
+        },
+        {
+          "id": "Ionity-power",
+          "name": "Ionity Power",
+          "monthlyFee": 305.00,
+          "prices": {
+            "AC": null,
+            "DC": null,
+            "UFC": {  
+              "price": 12.00,
+              "minutes": -1,
+              "kw_from": 0,
+              "kw_to": 999
+            }
+          },
+          "connectionFee": 0,
+          "currency": "CZK",
+          "logo_url": "./ionity.svg"
+        }
+      ]
     }
   }
 }

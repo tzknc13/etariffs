@@ -7,9 +7,9 @@ import RowPrice from "./RowPrice.astro";
 interface Props {
   label: string;
   prices: {
-    AC: { price: number; kw_from: number; kw_to: number };
-    DC: { price: number; kw_from: number; kw_to: number };
-    UFC: { price: number; kw_from: number; kw_to: number };
+    AC: { price: number; kw_from: number; kw_to: number } | null;
+    DC: { price: number; kw_from: number; kw_to: number } | null;
+    UFC: { price: number; kw_from: number; kw_to: number } | null;
   };
   maxPrice: {
     AC: number;
@@ -36,37 +36,49 @@ const { label, prices, maxPrice, monthlyFee, logo_url } = Astro.props;
         )
       }
       <div>
-        <RowPrice price={monthlyFee} label="czk/month" />
+        <RowPrice price={monthlyFee} label="czk/month"/>
       </div>
     </div>
-    <div class="col-span-1 borderline rowcell">
+    <div class="col-span-1 borderline rowcell" style={`${!prices.AC ? "opacity: 0.2;" : ""}`}>
       <KilowattsRange
-        from={prices.AC.kw_from}
-        to={prices.AC.kw_to}
+        from={prices.AC?.kw_from}
+        to={prices.AC?.kw_to}
         label="kW"
       />
-      <RowPrice price={prices.AC.price} />
-      <PercentageBar value={prices.AC.price} max={maxPrice.AC} type="bar" />
+      <RowPrice price={prices.AC?.price} />
+      <PercentageBar
+        value={prices.AC?.price || 0}
+        max={maxPrice.AC}
+        type="bar"
+      />
       <!-- <PercentageCircle value={prices.AC.price} max={maxPrice.AC}/> -->
     </div>
     <div class="col-span-1 borderline rowcell">
       <KilowattsRange
-        from={prices.DC.kw_from}
-        to={prices.DC.kw_to}
+        from={prices.DC?.kw_from}
+        to={prices.DC?.kw_to}
         label="kW"
       />
-      <RowPrice price={prices.DC.price} />
-      <PercentageBar value={prices.DC.price} max={maxPrice.DC} type="dc" />
+      <RowPrice price={prices.DC?.price} />
+      <PercentageBar
+        value={prices.DC?.price || 0}
+        max={maxPrice.DC}
+        type="dc"
+      />
       <!-- <PercentageCircle value={prices.DC.price} max={maxPrice.DC}/> -->
     </div>
     <div class="col-span-1 rowcell">
       <KilowattsRange
-        from={prices.UFC.kw_from}
-        to={prices.UFC.kw_to}
+        from={prices.UFC?.kw_from}
+        to={prices.UFC?.kw_to}
         label="kW"
       />
-      <RowPrice price={prices.UFC.price} />
-      <PercentageBar value={prices.UFC.price} max={maxPrice.UFC} type="ufc" />
+      <RowPrice price={prices.UFC?.price} />
+      <PercentageBar
+        value={prices.UFC?.price || 0}
+        max={maxPrice.UFC}
+        type="ufc"
+      />
       <!-- <PercentageCircle value={prices.UFC.price} max={maxPrice.UFC}/> -->
     </div>
   </div>
