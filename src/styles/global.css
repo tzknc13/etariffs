@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+:root {
+  --ACcolor: rgba(171, 179, 253, 0.637);
+  --DCcolor: rgb(41, 212, 235);
+  --UFCcolor: rgb(47, 119, 253);
+}
+
 @theme {
   --color-site-bg: #080c10;
   --color-site-bg2: #0d1318;

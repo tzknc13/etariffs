@@ -2,37 +2,47 @@
 interface Props {
   price?: number;
   label?: string;
+  color?: string;
 }
 
-const { price, label = "czk/kWh" }: Props = Astro.props;
+const { price, label = "czk/kWh", color }: Props = Astro.props;
 const decimal = price ? price.toFixed(2) : "0.00";
 // split the before and after decimal parts to style them differently if needed
 const [beforeDecimal, afterDecimal] = decimal.split(".");
 ---
 
-<div class="price">
+<div class="price" style={`${!price ? "opacity: 0.2;" : ""}${color ? `--row-color: ${color};` : ""}`}>
   <span class="monetary-value">
     {beforeDecimal}<span class="decimal-part text-sm">.{afterDecimal}</span>
   </span>
-  <span class="czk-currency"> {label} </span>
+  <!-- <span class="czk-currency"> {label} </span> -->
 </div>
 
 <style>
   .price {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: baseline;
     justify-content: center;
     align-items: center;
   }
   .monetary-value {
-    font-size: 1.45rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    color: #b7b6b6;
+  }
+
+  @media (min-width: 1024px) {
+    .monetary-value {
+      font-size: 1.45rem;
+    }
   }
   .czk-currency {
     font-size: 0.875rem;
-    color: #4c4b4b;
+    color: var(--row-color, #4c4b4b);
     margin-left: 0.25rem;
+  }
+  .decimal-part {
+  
+    color: var(--row-color, #b7b6b6);
   }
 </style>

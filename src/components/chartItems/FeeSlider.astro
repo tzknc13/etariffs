@@ -99,8 +99,8 @@ const t = translations[defaultLocale].home;
   function filterRows() {
     const min = parseFloat(rangeMin.value);
     const max = parseFloat(rangeMax.value);
-    document.querySelectorAll<HTMLElement>('.provider-row').forEach((row) => {
-      const fee = parseFloat(row.dataset.monthlyFee!);
+    document.querySelectorAll<HTMLElement>('[data-sort-item]').forEach((row) => {
+      const fee = parseFloat(row.dataset.fee!);
       row.style.display = fee >= min && fee <= max ? '' : 'none';
     });
   }

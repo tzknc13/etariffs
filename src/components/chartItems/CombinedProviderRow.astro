@@ -3,6 +3,7 @@ import PercentageBar from "./PercentageBar.astro";
 import PercentageCircle from "./PercentageCircle.astro";
 import KilowattsRange from "./KilowattsRange.astro";
 import RowPrice from "./RowPrice.astro";
+import BackgroundGrid from "./BackgroundGrid.astro";
 
 interface Props {
   label: string;
@@ -20,103 +21,85 @@ interface Props {
   logo_url: string;
 }
 
+const arr = Array.from({ length: 35 }, (_, i) => i);
+
 const { label, prices, maxPrice, monthlyFee, logo_url } = Astro.props;
+const pricesToKw = Object.fromEntries(
+  Object.entries(prices).map(([key, val]) => [
+    key,
+    val
+      ? {
+          ...val,
+          kw_from: Math.ceil(val.kw_from / 10),
+          kw_to: Math.ceil(val.kw_to / 10),
+        }
+      : null,
+  ]),
+);
 ---
 
-<div data-monthly-fee={monthlyFee}>
-  <div class="grid grid-cols-4">
-    <div class="col-span-1 borderline rowcell rowcell-first flex flex-col">
-      {
-        logo_url && (
-          <img
-            src={logo_url}
-            alt={`${label} logo`}
-            class="w-16 h-8 object-contain"
-          />
-        )
-      }
-      <div>
-        <RowPrice price={monthlyFee} label="czk/month"/>
+<div class="kw-row">
+  <div class="absolute left-0 right-0 z-1 ">
+    <BackgroundGrid legend={false} />
+  </div>
+  <div class="grid grid-cols-35 gap-0 relative z-2 ">
+    {pricesToKw.AC && (
+      <div
+        class="price-cover price-ac"
+        style=`grid-column: ${pricesToKw.AC.kw_from} / span ${pricesToKw.AC.kw_to - pricesToKw.AC.kw_from}`
+      >
       </div>
+    )}
+    {pricesToKw.DC && (
+      <div
+      class="price-cover price-dc"
+      style=`grid-column: ${pricesToKw.DC?.kw_from} / span ${(pricesToKw.DC?.kw_to - pricesToKw.DC?.kw_from)}`
+    >
     </div>
-    <div class="col-span-1 borderline rowcell" style={`${!prices.AC ? "opacity: 0.2;" : ""}`}>
-      <KilowattsRange
-        from={prices.AC?.kw_from}
-        to={prices.AC?.kw_to}
-        label="kW"
-      />
-      <RowPrice price={prices.AC?.price} />
-      <PercentageBar
-        value={prices.AC?.price || 0}
-        max={maxPrice.AC}
-        type="bar"
-      />
-      <!-- <PercentageCircle value={prices.AC.price} max={maxPrice.AC}/> -->
+    )}
+    <div
+      class="price-cover price-ufc"
+      style=`grid-column: ${pricesToKw.UFC?.kw_from} / span ${(pricesToKw.UFC?.kw_to - pricesToKw.UFC?.kw_from)}`
+    >
     </div>
-    <div class="col-span-1 borderline rowcell">
-      <KilowattsRange
-        from={prices.DC?.kw_from}
-        to={prices.DC?.kw_to}
-        label="kW"
-      />
-      <RowPrice price={prices.DC?.price} />
-      <PercentageBar
-        value={prices.DC?.price || 0}
-        max={maxPrice.DC}
-        type="dc"
-      />
-      <!-- <PercentageCircle value={prices.DC.price} max={maxPrice.DC}/> -->
+  </div>
+
+  <div class="grid grid-cols-3 gap-0 relative z-2">
+    <div class="col-span-1 text-left">
+      <RowPrice price={prices.AC?.price} color="var(--ACcolor)" />
     </div>
-    <div class="col-span-1 rowcell">
-      <KilowattsRange
-        from={prices.UFC?.kw_from}
-        to={prices.UFC?.kw_to}
-        label="kW"
-      />
-      <RowPrice price={prices.UFC?.price} />
-      <PercentageBar
-        value={prices.UFC?.price || 0}
-        max={maxPrice.UFC}
-        type="ufc"
-      />
-      <!-- <PercentageCircle value={prices.UFC.price} max={maxPrice.UFC}/> -->
+    <div class="col-span-1 text-left">
+      <RowPrice price={prices.DC?.price} color="var(--DCcolor)" />
+    </div>
+    <div class="col-span-1 text-left">
+      <RowPrice price={prices.UFC?.price} color="var(--UFCcolor)" />
     </div>
   </div>
 </div>
 
 <style>
-  .borderline {
-    border-right: 1px solid rgba(0, 229, 160, 0.12);
+  .price-cover {
+    background-color: black;
+    height: px;
+    opacity: 0.2;
   }
-  .rowcell {
-    /* display: flex; */
-    /* flex-direction: column; */
-    display: grid;
-    align-items: center;
-    align-content: baseline;
-    padding: 0.3rem;
-    /* text-align: center; */
-  }
-  .rowcell-first {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    align-content: baseline;
-    padding: 0.3rem;
-    /* text-align: center; */
-  }
-  /* .czk-currency {
-    font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.6);
-    margin-left: 2px;
-  }
-  .monetary-value {
-    font-size: 0.875rem;
-    font-weight: 600;
-  } */
 
-  .monthly-fee-value {
-    /* color: rgba(255, 255, 255, 0.8); */
-    font-size: 1.1rem;
+  .price-ac {
+    background-color: var(--ACcolor);
   }
+  .price-dc {
+    background-color: var(--DCcolor);
+  }
+
+  .price-ufc {
+    background-color: var(--UFCcolor);
+  }
+  .kw-row {
+    position: relative;
+    height: 28px;
+  }
+  /* .col {
+    border-left: 1px solid rgba(128, 128, 128, 0.522);
+    height: 20px;
+  } */
 </style>

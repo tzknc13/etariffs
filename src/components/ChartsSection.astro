@@ -5,15 +5,17 @@ import CombinedProviderRow from "./chartItems/CombinedProviderRow.astro";
 import Card from "./Card.astro";
 import FeeSlider from "./chartItems/FeeSlider.astro";
 import SortButton from "./chartItems/SortButton.astro";
+import RowPrice from "./chartItems/RowPrice.astro";
+import BackgroundGrid from "./chartItems/BackgroundGrid.astro";
+
 // import type { any } from "astro:schema";
 
 // prepare the tarifs raw data
 // on server, not client
 
 const i18 = translations[defaultLocale].home;
-const providers = Object.values(providersData.providers).flat()
+const providers = Object.values(providersData.providers).flat();
 const tariffs = providers.flatMap((p) => p.tariffs);
-
 
 const allTariffs = tariffs.map((t) => ({
   ...t,
@@ -48,12 +50,17 @@ const maxPrices = {
   <div
     class="col-span-5 lg:col-span-4 grid grid-cols-4 gap-2 lg:gap-6 text-center"
   >
-    <SortButton label="Fee/mth." sortKey="monthlyFee" />
     <SortButton label="AC" sortKey="AC" />
     <SortButton label="DC" sortKey="DC" />
     <SortButton label="UFC" sortKey="UFC" />
+    <SortButton label="Fee/mth." sortKey="monthlyFee" />
 
     <div id="sort-container" class="col-span-5 flex flex-col gap-2 lg:gap-6">
+      <div class="grid grid-cols-5">
+        <div class="col-span-4 px-4">
+          <BackgroundGrid legend={true} />
+        </div>
+      </div>
       {
         allTariffs.map((t) => (
           <div
@@ -63,67 +70,84 @@ const maxPrices = {
             data-dc={t.prices.DC?.price}
             data-ufc={t.prices.UFC?.price}
           >
-            <Card
-              title={t.label}
-              logo_url={t.logo_url}
-              isThin={true}
-              isMoon={t.isNightTarif ? true : false}
-              colSpan="w-full"
-            >
-              <CombinedProviderRow
-                label={t.label}
-                prices={t.prices}
-                maxPrice={maxPrices}
-                monthlyFee={t.monthlyFee}
-                logo_url={t.logo_url}
-              />
-            </Card>
+            <div class="grid grid-cols-5">
+              <div class="col-span-4">
+                <Card
+                  title={t.label}
+                  logo_url={t.logo_url}
+                  isThin={true}
+                  isMoon={t.isNightTarif ? true : false}
+                  colSpan="w-full"
+                >
+                  <CombinedProviderRow
+                    label={t.label}
+                    prices={t.prices}
+                    maxPrice={maxPrices}
+                    monthlyFee={t.monthlyFee}
+                    logo_url={t.logo_url}
+                  />
+                </Card>
+              </div>
+              <div class="col-span-1">
+                <RowPrice price={t.monthlyFee} />
+              </div>
+            </div>
           </div>
         ))
       }
     </div>
-
-    <script>
-      const keyMap: Record<string, string> = {
-        monthlyFee: "fee",
-        AC: "ac",
-        DC: "dc",
-        UFC: "ufc",
-      };
-
-      function sortItems(dataKey: string, dir: "asc" | "desc") {
-        const container = document.getElementById("sort-container");
-        if (!container) return;
-        const items = Array.from(
-          container.querySelectorAll<HTMLElement>("[data-sort-item]"),
-        );
-        items.sort((a, b) => {
-          const av = parseFloat(a.dataset[dataKey] ?? "0");
-          const bv = parseFloat(b.dataset[dataKey] ?? "0");
-          return dir === "asc" ? av - bv : bv - av;
-        });
-        items.forEach((item) => container.appendChild(item));
-      }
-
-      function setButtonState(btn: HTMLElement, dir: "asc" | "desc" | "none") {
-        btn.dataset.sortDir = dir;
-        const up = btn.querySelector<SVGPathElement>(".arrow-up");
-        const down = btn.querySelector<SVGPathElement>(".arrow-down");
-        if (up) up.style.opacity = dir === "asc" ? "1" : "0.3";
-        if (down) down.style.opacity = dir === "desc" ? "1" : "0.3";
-      }
-
-      // Default: sort by DC ascending
-      const dcBtn = document.querySelector<HTMLElement>('[data-sort-key="DC"]');
-      if (dcBtn) setButtonState(dcBtn, "asc");
-      sortItems("dc", "asc");
-
-      document.addEventListener("sort", (e: Event) => {
-        const { key, dir } = (
-          e as CustomEvent<{ key: string; dir: "asc" | "desc" }>
-        ).detail;
-        sortItems(keyMap[key] ?? key.toLowerCase(), dir);
-      });
-    </script>
   </div>
+
+  <script>
+    const keyMap: Record<string, string> = {
+      monthlyFee: "fee",
+      AC: "ac",
+      DC: "dc",
+      UFC: "ufc",
+    };
+
+    function sortItems(dataKey: string, dir: "asc" | "desc") {
+      const container = document.getElementById("sort-container");
+      if (!container) return;
+      const items = Array.from(
+        container.querySelectorAll<HTMLElement>("[data-sort-item]"),
+      );
+      items.sort((a, b) => {
+        const aRaw = a.dataset[dataKey];
+        const bRaw = b.dataset[dataKey];
+        const aMissing = aRaw === undefined || aRaw === "";
+        const bMissing = bRaw === undefined || bRaw === "";
+        if (aMissing && bMissing) return 0;
+        if (aMissing) return 1;
+        if (bMissing) return -1;
+        const av = parseFloat(aRaw);
+        const bv = parseFloat(bRaw);
+        return dir === "asc" ? av - bv : bv - av;
+      });
+      items.forEach((item) => container.appendChild(item));
+    }
+
+    function setButtonState(btn: HTMLElement, dir: "asc" | "desc" | "none") {
+      btn.dataset.sortDir = dir;
+      const up = btn.querySelector<SVGPathElement>(".arrow-up");
+      const down = btn.querySelector<SVGPathElement>(".arrow-down");
+      if (up) up.style.opacity = dir === "asc" ? "1" : "0.3";
+      if (down) down.style.opacity = dir === "desc" ? "1" : "0.3";
+    }
+
+    // Default: sort by DC ascending
+    const dcBtn = document.querySelector<HTMLElement>('[data-sort-key="DC"]');
+    if (dcBtn) {
+      setButtonState(dcBtn, "asc");
+      dcBtn.classList.add("sort-btn--active");
+    }
+    sortItems("dc", "asc");
+
+    document.addEventListener("sort", (e: Event) => {
+      const { key, dir } = (
+        e as CustomEvent<{ key: string; dir: "asc" | "desc" }>
+      ).detail;
+      sortItems(keyMap[key] ?? key.toLowerCase(), dir);
+    });
+  </script>
 </div>

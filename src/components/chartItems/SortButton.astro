@@ -38,6 +38,7 @@ const { label, sortKey } = Astro.props;
         .querySelectorAll<HTMLButtonElement>(".sort-btn")
         .forEach((b) => {
           b.dataset.sortDir = "none";
+          b.classList.remove("sort-btn--active");
           const up = b.querySelector<SVGPathElement>(".arrow-up");
           const down = b.querySelector<SVGPathElement>(".arrow-down");
           if (up) up.style.opacity = "0.3";
@@ -45,6 +46,7 @@ const { label, sortKey } = Astro.props;
         });
 
       btn.dataset.sortDir = next;
+      btn.classList.add("sort-btn--active");
       const up = btn.querySelector<SVGPathElement>(".arrow-up");
       const down = btn.querySelector<SVGPathElement>(".arrow-down");
 
@@ -65,3 +67,20 @@ const { label, sortKey } = Astro.props;
     });
   });
 </script>
+<style>
+  .sort-btn {
+    border-radius: 8px;
+    border: 1px solid rgba(0, 229, 160, 0.18);
+    backdrop-filter: blur(20px);
+    box-shadow:
+      0 0 40px rgba(0, 229, 160, 0.08),
+      0 20px 40px rgba(0, 0, 0, 0.4);
+    transition: border-color 0.2s, background-color 0.2s;
+  }
+
+  .sort-btn--active {
+    border-color: rgba(0, 229, 160, 0.7);
+    background-color: rgba(0, 229, 160, 0.08);
+    color: #00e5a0;
+  }
+</style>
