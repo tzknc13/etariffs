@@ -5,13 +5,13 @@
       "tariffs": [
         {
           "id": "pre-start",
-          "name": "PRE start",
+          "name": "start",
           "monthlyFee": 0,
           "prices": {
             "AC": {
               "price": 10.12,
               "minutes": 60,
-              "kw_from": 0,
+              "kw_from": 1,
               "kw_to": 49
             },
             "DC": {
@@ -33,13 +33,13 @@
         },
         {
           "id": "pre-silver",
-          "name": "PRE silver",
+          "name": "silver",
           "monthlyFee": 150,
           "prices": {
             "AC": {
               "price": 8.00,
               "minutes": 60,
-              "kw_from": 0,
+              "kw_from": 1,
               "kw_to": 49
             },
             "DC": {
@@ -61,13 +61,13 @@
         },
         {
           "id": "pre-gold",
-          "name": "PRE Gold (!)",
+          "name": "Gold (!)",
           "monthlyFee": 150,
           "prices": {
             "AC": {
               "price": 7.00,
               "minutes": 60,
-              "kw_from": 0,
+              "kw_from": 1,
               "kw_to": 49
             },
             "DC": {
@@ -94,13 +94,13 @@
       "tariffs": [
         {
           "id": "cez-basic",
-          "name": "CEZ basic",
+          "name": "basic",
           "monthlyFee": 0,
           "prices": {
             "AC": {
               "price": 9.90,
               "minutes": 60,
-              "kw_from": 0,
+              "kw_from": 1,
               "kw_to": 49
             },
             "DC": {
@@ -127,13 +127,13 @@
       "tariffs": [
         {
           "id": "eon-unregistered",
-          "name": "EON unregistered",
+          "name": "unregistered",
           "monthlyFee": 0,
           "prices": {
             "AC": {
               "price": 10.50,
               "minutes": 480,
-              "kw_from": 0,
+              "kw_from": 1,
               "kw_to": 100
             },
             "DC": {
@@ -155,13 +155,13 @@
         },
         {
           "id": "eon-daytime",
-          "name": "EON daytime",
+          "name": "daytime",
           "monthlyFee": 0,
           "prices": {
             "AC": {
               "price": 9.50,
               "minutes": 480,
-              "kw_from": 0,
+              "kw_from": 1,
               "kw_to": 100
             },
             "DC": {
@@ -183,13 +183,13 @@
         },
         {
           "id": "eon-nighttime",
-          "name": "EON night",
+          "name": "night",
           "monthlyFee": 0,
           "prices": {
             "AC": {
               "price": 9.50,
               "minutes": 480,
-              "kw_from": 0,
+              "kw_from": 1,
               "kw_to": 100
             },
             "DC": {
@@ -217,13 +217,13 @@
       "tariffs": [
         {
           "id": "mol-unregistered",
-          "name": "MOL unregistered",
+          "name": "unregistered",
           "monthlyFee": 0,
           "prices": {
             "AC": {
               "price": 10.00,
               "minutes": 30,
-              "kw_from": 0,
+              "kw_from": 1,
               "kw_to": 25
             },
             "DC": {
@@ -235,7 +235,7 @@
             "UFC": {
               "price": 15.50,
               "minutes": 30,
-              "kw_from": 201,
+              "kw_from": 99,
               "kw_to": 999
             }
           },
@@ -245,13 +245,13 @@
         },
         {
           "id": "mol-registered",
-          "name": "MOL registered",
+          "name": "registered",
           "monthlyFee": 0,
           "prices": {
             "AC": {
               "price": 8.30,
               "minutes": 30,
-              "kw_from": 0,
+              "kw_from": 1,
               "kw_to": 25
             },
             "DC": {
@@ -278,7 +278,7 @@
       "tariffs": [
         {
           "id": "Ionity-unregistered",
-          "name": "Ionity unregistered",
+          "name": "unregistered",
           "monthlyFee": 0,
           "prices": {
             "AC": null,
@@ -286,7 +286,7 @@
             "UFC": {  
               "price": 21.00,
               "minutes": -1,
-              "kw_from": 0,
+              "kw_from": 1,
               "kw_to": 999
             }
           },
@@ -296,7 +296,7 @@
         },
         {
           "id": "Ionity-registered",
-          "name": "Ionity registered",
+          "name": "registered",
           "monthlyFee": 0,
           "prices": {
             "AC": null,
@@ -304,7 +304,7 @@
             "UFC": {  
               "price": 19.95,
               "minutes": -1,
-              "kw_from": 0,
+              "kw_from": 1,
               "kw_to": 999
             }
           },
@@ -314,7 +314,7 @@
         },
         {
           "id": "Ionity-motion",
-          "name": "Ionity Motion",
+          "name": "Motion",
           "monthlyFee": 105.00,
           "prices": {
            "AC": null,
@@ -322,8 +322,8 @@
             "UFC": {  
               "price": 15.00,
               "minutes": -1,
-              "kw_from": 0,
-              "kw_to": 999
+              "kw_from": 1,
+              "kw_to": 360
             }
           },
           "connectionFee": 0,
@@ -332,7 +332,7 @@
         },
         {
           "id": "Ionity-power",
-          "name": "Ionity Power",
+          "name": "Power",
           "monthlyFee": 305.00,
           "prices": {
             "AC": null,
@@ -340,8 +340,8 @@
             "UFC": {  
               "price": 12.00,
               "minutes": -1,
-              "kw_from": 0,
-              "kw_to": 999
+              "kw_from": 1,
+              "kw_to": 360
             }
           },
           "connectionFee": 0,

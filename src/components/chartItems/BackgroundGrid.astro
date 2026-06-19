@@ -1,0 +1,38 @@
+---
+import RowPrice from "./RowPrice.astro";
+
+interface Props {
+  legend: boolean;
+}
+
+const { legend } = Astro.props;
+const arr = Array.from({ length: 35 }, (_, i) => i);
+---
+
+<div class="grid grid-cols-35 gap-0">
+  {
+    arr.map((i) => (
+      <div class="col-span-1 text-gray-400 text-sm text-left relative right-1">
+        {legend === false
+          ? ""
+          : i === 10 || i === 0 || i === 20 || i === 30
+            ? i * 10
+            : i === 34
+              ? "kW"
+              : ""}
+      </div>
+    ))
+  }
+  {
+    arr.map((i) => (
+      <div class="col col-span-1"/>
+    ))
+  }
+</div>
+
+<style>
+  .col {
+    border-left: 1px solid rgba(128, 128, 128, 0.305);
+    height: 9px;
+  }
+</style>
