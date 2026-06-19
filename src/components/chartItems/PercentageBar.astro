@@ -14,7 +14,7 @@ const empty = 100 - percentage
 
 ---
 
-<div class="mx-16 relative top-0 left-0 h-2 z-10" style={`--empty: ${empty}%`} aria-label={`${Math.round((value / max) * 100)}%`}>
+<div class="mx-2 lg:mx-16 relative top-0 left-0 h-2" style={`--empty: ${empty}%`} aria-label={`${Math.round((value / max) * 100)}%`}>
   <div class={`bar ${type === 'dc' ? 'bar-dc' : type === 'ufc' ? 'bar-ufc' : ''}`}></div>
   <div class="bar-cover"></div>
 </div>

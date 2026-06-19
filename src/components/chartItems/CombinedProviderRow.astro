@@ -25,7 +25,7 @@ const { label, prices, maxPrice, monthlyFee, logo_url } = Astro.props;
 
 <div data-monthly-fee={monthlyFee}>
   <div class="grid grid-cols-4">
-    <div class="col-span-1 borderline rowcell rowcell-first">
+    <div class="col-span-1 borderline rowcell rowcell-first flex flex-col">
       {
         logo_url && (
           <img
