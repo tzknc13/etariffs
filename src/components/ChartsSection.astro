@@ -48,16 +48,17 @@ const maxPrices = {
   <!-- Charts -->
 
   <div
-    class="col-span-5 lg:col-span-4 grid grid-cols-4 gap-2 lg:gap-6 text-center"
+    class="col-span-5 lg:col-span-4 grid grid-cols-5 gap-2 lg:gap-6 text-center px-1 lg:px-4"
   >
+    <div class="empty"></div>
     <SortButton label="AC" sortKey="AC" />
     <SortButton label="DC" sortKey="DC" />
     <SortButton label="UFC" sortKey="UFC" />
     <SortButton label="Fee/mth." sortKey="monthlyFee" />
 
     <div id="sort-container" class="col-span-5 flex flex-col gap-2 lg:gap-6">
-      <div class="grid grid-cols-5">
-        <div class="col-span-4 px-4">
+      <div class="grid grid-cols-6">
+        <div class="col-start-2 col-span-4 px-4">
           <BackgroundGrid legend={true} />
         </div>
       </div>
@@ -70,7 +71,8 @@ const maxPrices = {
             data-dc={t.prices.DC?.price}
             data-ufc={t.prices.UFC?.price}
           >
-            <div class="grid grid-cols-5">
+            <div>
+            {/* <div class="grid grid-cols-5 items-center"> */}
               <div class="col-span-4">
                 <Card
                   title={t.label}
@@ -88,9 +90,9 @@ const maxPrices = {
                   />
                 </Card>
               </div>
-              <div class="col-span-1">
+              {/* <div class="col-span-1 justify-center">
                 <RowPrice price={t.monthlyFee} />
-              </div>
+              </div> */}
             </div>
           </div>
         ))

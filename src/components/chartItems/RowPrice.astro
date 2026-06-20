@@ -13,7 +13,7 @@ const [beforeDecimal, afterDecimal] = decimal.split(".");
 
 <div class="price" style={`${!price ? "opacity: 0.2;" : ""}${color ? `--row-color: ${color};` : ""}`}>
   <span class="monetary-value">
-    {beforeDecimal}<span class="decimal-part text-sm">.{afterDecimal}</span>
+    {beforeDecimal}<span class="decimal-part">.{afterDecimal}</span>
   </span>
   <!-- <span class="czk-currency"> {label} </span> -->
 </div>
@@ -25,6 +25,8 @@ const [beforeDecimal, afterDecimal] = decimal.split(".");
     align-items: baseline;
     justify-content: center;
     align-items: center;
+    margin-top: 5px;
+    color: rgb(164, 164, 164);
   }
   .monetary-value {
     font-size: 0.85rem;
@@ -42,7 +44,7 @@ const [beforeDecimal, afterDecimal] = decimal.split(".");
     margin-left: 0.25rem;
   }
   .decimal-part {
-  
-    color: var(--row-color, #b7b6b6);
+    /* color: var(--row-color, #b7b6b6); */
+    font-size: 0.875rem;
   }
 </style>

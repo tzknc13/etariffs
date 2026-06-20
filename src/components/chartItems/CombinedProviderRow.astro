@@ -39,8 +39,10 @@ const pricesToKw = Object.fromEntries(
 ---
 
 <div class="kw-row">
-  <div class="absolute left-0 right-0 z-1 ">
-    <BackgroundGrid legend={false} />
+  <!-- <div class="absolute grid grid-cols-5 left-0 right-0 z-1 ">
+    <div class="col-span-4">
+      <BackgroundGrid legend={false} />
+    </div>
   </div>
   <div class="grid grid-cols-35 gap-0 relative z-2 ">
     {pricesToKw.AC && (
@@ -59,12 +61,21 @@ const pricesToKw = Object.fromEntries(
     )}
     <div
       class="price-cover price-ufc"
-      style=`grid-column: ${pricesToKw.UFC?.kw_from} / span ${(pricesToKw.UFC?.kw_to - pricesToKw.UFC?.kw_from)}`
+      style=`grid-column: ${pricesToKw.UFC?.kw_from} / span ${((pricesToKw.UFC?.kw_to || 0) - (pricesToKw.UFC?.kw_from || 0))}`
     >
     </div>
-  </div>
+  </div> -->
 
-  <div class="grid grid-cols-3 gap-0 relative z-2">
+  <div class="grid grid-cols-5 gap-0 relative z-2">
+    <div class="col-span-1 text-left">
+      {logo_url && (
+          <img
+            src={logo_url}
+            alt={`${label} logo`}
+            class="w-20 h-6 object-contain"
+          />
+        )}
+    </div>
     <div class="col-span-1 text-left">
       <RowPrice price={prices.AC?.price} color="var(--ACcolor)" />
     </div>
@@ -73,6 +84,9 @@ const pricesToKw = Object.fromEntries(
     </div>
     <div class="col-span-1 text-left">
       <RowPrice price={prices.UFC?.price} color="var(--UFCcolor)" />
+    </div>
+    <div class="col-span-1 justify-center">
+      <RowPrice price={monthlyFee} />
     </div>
   </div>
 </div>

@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --ACcolor: rgba(171, 179, 253, 0.637);
-  --DCcolor: rgb(41, 212, 235);
-  --UFCcolor: rgb(47, 119, 253);
+  --ACcolor: rgba(2, 254, 220, 0.479);
+  --DCcolor: rgba(7, 221, 249, 0.439);
+  --UFCcolor: rgba(245, 211, 101, 0.45);
 }
 
 @theme {
@@ -26,6 +26,10 @@ html, body {
 
 a {
   color: var(--color-site-link);
+}
+
+.grid {
+  /* border: 1px dotted green */
 }
 
 .grid-bg {
